@@ -13,7 +13,6 @@ public class User {
 	private String name;
 	
 	@JsonProperty("password")
-	@JsonIgnore
 	private String pwd;
 	
 	@JsonProperty("role")
@@ -27,6 +26,17 @@ public class User {
 	
 	@JsonProperty("time")
 	private Timestamp time;
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	@JsonProperty
+	private String content;
 
 	public String getName() {
 		return name;

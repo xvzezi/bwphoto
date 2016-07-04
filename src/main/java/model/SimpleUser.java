@@ -22,7 +22,7 @@ public class SimpleUser {
 
 	@JsonCreator
 	public SimpleUser(@JsonProperty(value = "name") String name, 
-					  @JsonProperty(value = "paosswrd") String pwd)
+					  @JsonProperty(value = "password") String pwd)
 	{
 		this.username = name;
 		this.pwd = pwd;

@@ -16,7 +16,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  *   A Helper Class Easy To Get IoC Class
  */
 public class SpringIoC {
-	private static final ApplicationContext context = new ClassPathXmlApplicationContext(new String[] {"IoC.xml"});
+	private static final ApplicationContext context = new ClassPathXmlApplicationContext(new String[] {"/IoC.xml"});
 	public static <T> T classGetter(Class<T> target)
 	{
 		return context.getBean(target);

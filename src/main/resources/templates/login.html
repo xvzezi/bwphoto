@@ -24,16 +24,16 @@
 
 <div class="container">
 
-    <form class="form-signin" action="/web/login" method="post" th:object="${user}" th:method="post">
+    <form class="form-signin" method="post">
         <div class="form-signin-heading text-center">
             <h1 class="sign-title">Sign In</h1>
             <img src="/images/login-logo.png" alt=""/>
         </div>
         <div class="login-wrap">
-            <input type="text" class="form-control" placeholder="User ID" autofocus="autofocus" th:field="*{username}"/>
-            <input type="password" class="form-control" placeholder="Password" th:field="*{pwd}"/>
-
-            <button class="btn btn-lg btn-login btn-block" type="submit">
+            <input type="text" class="form-control" placeholder="User ID" autofocus="autofocus" id="username"/>
+            <input type="password" class="form-control" placeholder="Password" id="password"/>
+			<i id="warn" style="color:red"></i><p id="badMes" style="color:red"></p>
+            <button class="btn btn-lg btn-login btn-block" type="button" onclick="loginPost()">
                 <i class="fa fa-check"></i>
             </button>
 
@@ -88,9 +88,37 @@
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/modernizr.min.js"></script>
 <script type="text/javascript">
-function loginPost(){
-	
-}
+    $.postJSON = function(url, data, callback) {
+        return jQuery.ajax({
+            'type' : 'POST',
+            'url' : url,
+            'contentType' : 'application/json',
+            'data' : JSON.stringify(data),
+            'dataType' : 'json',
+            'success' : callback
+        });
+    };
+    function loginPost(){
+        var username = $('#username').text();
+        var pwd = $('#password').text();
+        $('#badMes').text(username+pwd);
+        var user = {
+            name:username,
+            password:pwd
+        }
+
+        $.postJSON('/web/login', {name:$('#username').val(),password:$('#password').val()},function(result){
+            if(result.success)
+            {
+                location.href = "/web";
+            }
+            else
+            {
+                $('#badMes').text(result.fail);
+                $('#warn').addClass("fa fa-exclamation-circle")
+            }
+        })
+    }
 </script>
 
 </body>
