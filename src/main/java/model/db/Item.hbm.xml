@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC  
+                            "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+                            "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="model.db">
+	<class name="Item" table="item">
+		<id name="id" column="id">
+			<generator class="native"></generator>  
+		</id>
+		<many-to-one name="image" column="image_id" class="Image"  unique="true"/>
+		<many-to-one name="book" column="ISBN" class="Book" unique="true"/>
+		<many-to-one name="music" column="music_name" class="Music"  unique="true"/>
+		<many-to-one name="music" column="music_author" class="Music"  unique="true"/>
+		<many-to-one name="memory" column="memory_id" class="Memory"  unique="true"/>
+		<one-to-one name="mark" class="Mark" property-ref="item" />
+	</class>
+</hibernate-mapping> 

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC  
+                            "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+                            "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="model.db">
+	<class name="Tag" table="tag">
+		<id name="name" column="name">
+			<generator class="native"></generator>
+		</id>
+		<one-to-one name="itemtag" class="Itemtag" property-ref="tag"/>
+	</class>
+</hibernate-mapping> 

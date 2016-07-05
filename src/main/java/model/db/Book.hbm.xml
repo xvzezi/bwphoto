@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC  
+                            "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+                            "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="model.db">
+	<class name="Book" table="book">
+		<id name="isbn" column="ISBN">
+			<generator class="assigned"></generator>
+		</id>
+		<property name="name" column="name" type="java.lang.String"
+			not-null="true" length="10"></property>
+		<property name="author" column="author" type="java.lang.String"
+			not-null="true" length="10" />
+		<property name="intro" column="intro" type="java.lang.String"
+			not-null="true" length="280" />
+	    <one-to-one name="item" class="Item" property-ref="book"/>
+	</class>
+</hibernate-mapping> 
