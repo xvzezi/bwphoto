@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+         http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+         http://www.springframework.org/schema/context 
+         http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+	<!-- 登录与注册服务 -->
+	<bean id="userDao" class="DAO.imple.UserDaoImpl"/>
+	<bean id="logService" class="service.imple.LogServiceImpl">
+		<property name="dao" ref="userDao"/>
+	</bean>
+	<bean id="regService" class="service.imple.RegisterServiceImpl">
+		<property name="dao" ref="userDao"/>
+	</bean>
+
+	<!-- 资源服务 -->
+	<bean id="itemDao" class="DAO.imple.ItemDaoImpl"/>
+	<bean id="resourceService" class="service.imple.ResourceServiceImpl">
+		<property name="dao" ref="itemDao"/>
+	</bean>
+
+	<!-- 头像服务 -->
+	<bean id="profileService" class="service.imple.ProfileServiceImpl"/>
+
+	<!-- memory具体内容服务 -->
+	<bean id="memoryDao" class="DAO.imple.MemoryDaoImpl"/>
+	<bean id="wordService" class="service.imple.WordServiceImpl">
+		<property name="memoryDao" ref="memoryDao"/>
+		<property name="itemDao" ref="itemDao"/>
+	</bean>
+
+	<!-- image 下载服务-->
+	<bean id="imageDao" class="DAO.imple.ImageDaoImpl"/>
+	<bean id="imageService" class="service.imple.ImageServiceImpl">
+		<property name="itemDao" ref="itemDao"/>
+		<property name="imageDao" ref="imageDao"/>
+	</bean>
+
+	<!-- Tag: Resource服务的一部分-->
+	<bean id="itemtagDao" class="DAO.imple.ItemtagDaoImpl"/>
+	<bean id="tagDao" class="DAO.imple.TagDaoImpl"/>
+	<bean id="tagService" class="service.imple.TagServiceImpl">
+		<property name="itemDao" ref="itemDao"/>
+		<property name="itemtagDao" ref="itemtagDao"/>
+		<property name="tagDao" ref="tagDao"/>
+	</bean>
+
+	<!-- Friend Request 朋友请求服务 -->
+	<bean id="friendRequestDao" class="DAO.imple.FriendRequestDaoImpl"/>
+	<bean id="friendDao" class="DAO.imple.FriendDaoImpl"/>
+	<bean id="friendService" class="service.imple.FriendServiceImpl">
+		<property name="frDao" ref="friendRequestDao"/>
+		<property name="fDao" ref="friendDao"/>
+	</bean>
+
+	<!-- 评论 服务 -->
+	<bean id="markDao" class="DAO.imple.MarkDaoImpl"/>
+	<bean id="markService" class="service.imple.MarkServiceImpl">
+		<property name="itemDao" ref="itemDao"/>
+		<property name="markDao" ref="markDao"/>
+	</bean>
+
+	<!-- Mongo Database连接-->
+	<bean id="mongodb" class="util.MongoConfig">
+		<property name="ip">
+			<value>localhost</value>
+		</property>
+		<property name="port">
+			<value>27017</value>
+		</property>
+	</bean>
+</beans>

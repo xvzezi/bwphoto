@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+    <meta name="description" content=""/>
+    <meta name="author" content="ThemeBucket"/>
+    <link rel="shortcut icon" href="#" type="image/png"/>
+
+    <title>Registration</title>
+
+    <link href="/css/style.css" rel="stylesheet"/>
+    <link href="/css/style-responsive.css" rel="stylesheet"/>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="login-body">
+
+<div class="container">
+
+    <form class="form-signin" action="index.html">
+        <div class="form-signin-heading text-center">
+            <h1 class="sign-title">Registration</h1>
+            <img src="/images/index.png" alt=""/>
+        </div>
+
+
+        <div class="login-wrap">
+            <p>Enter your personal details below</p>
+            <input type="text" class="form-control" placeholder="Name"  autofocus="autofocus" id="username"></input>
+           
+            <input type="text" class="form-control" placeholder="Email" autofocus="autofocus" id="emailaddr"></input>
+            <input type="password" class="form-control" placeholder="Password"  id="password"></input>
+            <input type="password" class="form-control" placeholder="Re-type Password" id="repassword"></input>
+             <input type="date" class="form-control" placeholder="Birthday" autofocus="autofocus"  id="birthday"></input>
+            <label class="checkbox">
+            </label>
+            <button class="btn btn-lg btn-login btn-block" type="button" onclick="regPost()">
+                <i class="fa fa-check"></i>
+            </button>
+
+            <div class="registration">
+                Already Registered.
+                <a href="/web/login" class="">
+                    Login
+                </a>
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+
+<!-- Placed js at the end of the document so the pages load faster -->
+
+<!-- Placed js at the end of the document so the pages load faster -->
+<script src="/js/jquery-1.10.2.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/modernizr.min.js"></script>
+<script type="text/javascript">
+    $.postJSON = function(url, data, callback) {
+        return jQuery.ajax({
+            'type' : 'POST',
+            'url' : url,
+            'contentType' : 'application/json',
+            'data' : JSON.stringify(data),
+            'dataType' : 'json',
+            'success' : callback
+        });
+    };
+    
+    function regPost(){
+        var username = $('#username').text();
+        var password = $('#password').text();
+        var repassword= $('#repassword').text();
+        var email= $('#emailaddr').text();
+        var birthday= $('#birthday').text();
+        $('#badMes').text(username+password);
+        var user = {
+            name:username,
+            password:password,
+            repassword:repassword,
+            email:email,
+            birth:birthday,
+        }
+
+        $.postJSON('/web/register', {name:$('#username').val(),password:$('#password').val(),repassword:$('#repassword').val(),email:$('#emailaddr').val(),birth:$('#birthday').val()},function(result){
+            if(result.success)
+            {
+                location.href = "/web/login";
+            }
+            else
+            {
+                $('#badMes').text(result.fail);
+                $('#warn').addClass("fa fa-exclamation-circle")
+            }
+        })
+    }
+ </script>
+</body>
+</html>

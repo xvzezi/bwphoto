@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC  
+                            "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+                            "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="model.db">
+	<class name="Mark" table="mark">
+		<id name="id" column="id">
+			<generator class="native"></generator>  
+		</id>
+		<property name="content" column="content" type="java.lang.String"
+			not-null="true" length="280" />
+		<property name="time" column="time" type="java.sql.Timestamp"
+			not-null="true"  />
+		<property name="itemId" column="item_id" type="int"/>
+		<property name="thisname" column="this_name" type="java.lang.String"/>
+		<property name="parent" column="mark_on_id" type="int"/>
+	</class>
+</hibernate-mapping> 

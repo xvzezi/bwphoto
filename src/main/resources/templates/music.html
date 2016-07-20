@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+  <meta name="description" content=""/>
+  <meta name="author" content="ThemeBucket"/>
+  <link rel="shortcut icon" href="#" type="image/png"/>
+  
+   <title>Music</title>
+  
+   <!--icheck-->
+  <link href="/js/iCheck/skins/minimal/minimal.css" rel="stylesheet"/>
+  <link href="/js/iCheck/skins/square/square.css" rel="stylesheet"/>
+  <link href="/js/iCheck/skins/square/red.css" rel="stylesheet"/>
+  <link href="/js/iCheck/skins/square/blue.css" rel="stylesheet"/>
+
+
+
+  <!--nestable css-->
+  <link href="/js/nestable/jquery.nestable.css" rel="stylesheet"/>
+
+  <!--common-->
+  <link href="/css/style.css" rel="stylesheet"/>
+  <link href="/css/style-responsive.css" rel="stylesheet"/>
+
+
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+  <script src="js/html5shiv.js"></script>
+  <script src="js/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body class="sticky-header">
+
+<section>
+    <!-- left side start-->
+    <div class="left-side sticky-left-side">
+
+        <!--logo and iconic logo start-->
+        <div class="logo">
+            <a href="index.html"><img src="/images/title1-4.png" alt=""/></a>
+        </div>
+
+        <div class="logo-icon text-center">
+            <a href="index.html"><img src="/images/logo_icon.png" alt=""/></a>
+        </div>
+        <!--logo and iconic logo end-->
+
+
+        <div class="left-side-inner">
+
+            <!-- visible to small devices only -->
+            <div class="visible-xs hidden-sm hidden-md hidden-lg">
+                <div class="media logged-user">
+                    <img alt="" src="/images/photos/user-avatar.png" class="media-object"/>
+                    <div class="media-body">
+                        <h4><a href="#" th:text="${name}"></a></h4>
+                        <span>"Hello There..."</span>
+                    </div>
+                </div>
+
+                <h5 class="left-nav-title">Account Information</h5>
+                <ul class="nav nav-pills nav-stacked custom-nav">
+                    <li><a href="#"><i class="fa fa-user"></i> <span>Profile</span></a></li>
+                    <li><a href="#"><i class="fa fa-cog"></i> <span>Settings</span></a></li>
+                    <li><a href="#"><i class="fa fa-sign-out"></i> <span>Sign Out</span></a></li>
+                </ul>
+            </div>
+
+            <!--sidebar nav start-->
+            <ul class="nav nav-pills nav-stacked custom-nav">
+                <li><a href="/web"><i class="fa fa-home"></i> <span>Over View</span></a></li>
+                <li class="menu-list"><a href=""><i class="fa fa-laptop"></i> <span>Resources</span></a>
+                    <ul class="sub-menu-list">
+                        <li class="active"><a href="/web/music"> Music</a></li>
+                        <li><a href="/web/book"> Book</a></li>
+                        <li><a href="/web/words" > Words</a></li>
+                    </ul>
+                </li>
+                <li class="menu-list"><a href=""><i class="fa fa-users"></i> <span>Users</span></a>
+                    <ul class="sub-menu-list">
+                        <li><a href="#"> General</a></li>
+                        <li><a href="#"> Admin</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="#" onclick="loginPost()"><i class="fa fa-sign-in"></i> <span th:text="${name}?'Log Out':'Log In'" id="log">Login Page</span></a></li>
+            </ul>
+            <!--sidebar nav end-->
+
+        </div>
+    </div>
+    <!-- left side end-->
+    
+    <!-- main content start-->
+    <div class="main-content" >
+
+        <!-- header section start-->
+        <div class="header-section">
+
+            <!--toggle button start-->
+            <a class="toggle-btn"><i class="fa fa-bars"></i></a>
+            <!--toggle button end-->
+
+            <!--search start-->
+            <form class="searchform" action="index.html" method="post">
+                <input type="text" class="form-control" name="keyword" placeholder="Search here..." />
+            </form>
+            <!--search end-->
+
+            <!--notification menu start -->
+            <div class="menu-right">
+                    <ul class="notification-menu">
+                        <li>
+                            <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <img src="/images/photos/user-avatar.png" alt="" th:text="${name}"/>
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
+                                <li><a href="#"><i class="fa fa-sign-out"></i> Log Out</a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+            </div>
+            <!--notification menu end -->
+
+        </div>
+        <!-- header section end-->
+
+        <!-- page heading start-->
+        <div class="page-heading">
+            <h3>
+                Music
+            </h3>
+            <ul class="breadcrumb">
+                <li>
+                    <a href="/web">Over View</a>
+                </li>
+                <li class="active"> Music</li>
+            </ul>
+        </div>
+        <!-- page heading end-->
+        <hr/>
+        <!--body wrapper start-->
+        <div class="wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="text-right" id="nestable_list_menu">
+                        <button type="button" class="btn btn-success" data-action="expand-all">Expand All</button>
+                        <button type="button" class="btn btn-warning" data-action="collapse-all">Collapse All</button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="border-head">
+                        <h3>Serialised Output (per list)</h3>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <textarea id="nestable_list_1_output" class=" col-lg-12 form-control"></textarea>
+                        </div>
+                        <div class="col-lg-6">
+                            <textarea id="nestable_list_2_output" class=" col-lg-12 form-control"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <br> -->
+            <div class="row">
+                <div class="col-lg-6">
+                    <section class="panel">
+                        <header class="panel-heading">
+                            Nestable List 1
+                             <span class="tools pull-right">
+                                <a class="fa fa-chevron-down" href="javascript:;"></a>
+                                <a class="fa fa-times" href="javascript:;"></a>
+                            </span>
+                        </header>
+                        <div class="panel-body">
+                            <div class="dd" id="nestable_list_1">
+                                <ol class="dd-list">
+                                    <li class="dd-item" data-id="1">
+                                        <div class="dd-handle">Item 1</div>
+                                    </li>
+                                    <li class="dd-item" data-id="2">
+                                        <div class="dd-handle">Item 2</div>
+                                        <ol class="dd-list">
+                                            <li class="dd-item" data-id="3">
+                                                <div class="dd-handle">Item 3</div>
+                                            </li>
+                                            <li class="dd-item" data-id="4">
+                                                <div class="dd-handle">Item 4</div>
+                                            </li>
+                                            <li class="dd-item" data-id="5">
+                                                <div class="dd-handle">Item 5</div>
+                                                <ol class="dd-list">
+                                                    <li class="dd-item" data-id="6">
+                                                        <div class="dd-handle">Item 6</div>
+                                                    </li>
+                                                    <li class="dd-item" data-id="7">
+                                                        <div class="dd-handle">Item 7</div>
+                                                    </li>
+                                                    <li class="dd-item" data-id="8">
+                                                        <div class="dd-handle">Item 8</div>
+                                                    </li>
+                                                </ol>
+                                            </li>
+                                            <li class="dd-item" data-id="9">
+                                                <div class="dd-handle">Item 9</div>
+                                            </li>
+                                            <li class="dd-item" data-id="10">
+                                                <div class="dd-handle">Item 10</div>
+                                            </li>
+                                        </ol>
+                                    </li>
+                                    <li class="dd-item" data-id="11">
+                                        <div class="dd-handle">Item 11</div>
+                                    </li>
+                                    <li class="dd-item" data-id="12">
+                                        <div class="dd-handle">Item 12</div>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+                <div class="col-lg-6">
+                    <section class="panel">
+                        <header class="panel-heading">
+                            Nestable List 2
+                              <span class="tools pull-right">
+                                <a class="fa fa-chevron-down" href="javascript:;"></a>
+                                <a class="fa fa-times" href="javascript:;"></a>
+                            </span>
+                        </header>
+                        <div class="panel-body">
+                            <div class="dd" id="nestable_list_2">
+                                <ol class="dd-list">
+                                    <li class="dd-item" data-id="13">
+                                        <div class="dd-handle">Item 13</div>
+                                    </li>
+                                    <li class="dd-item" data-id="14">
+                                        <div class="dd-handle">Item 14</div>
+                                    </li>
+                                    <li class="dd-item" data-id="15">
+                                        <div class="dd-handle">Item 15</div>
+                                        <ol class="dd-list">
+                                            <li class="dd-item" data-id="16">
+                                                <div class="dd-handle">Item 16</div>
+                                            </li>
+                                            <li class="dd-item" data-id="17">
+                                                <div class="dd-handle">Item 17</div>
+                                            </li>
+                                            <li class="dd-item" data-id="18">
+                                                <div class="dd-handle">Item 18</div>
+                                            </li>
+                                        </ol>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <section class="panel">
+                        <header class="panel-heading">
+                            Nestable List 3
+                              <span class="tools pull-right">
+                                <a class="fa fa-chevron-down" href="javascript:;"></a>
+                                <a class="fa fa-times" href="javascript:;"></a>
+                            </span>
+                        </header>
+                        <div class="panel-body">
+                            <div class="dd" id="nestable_list_3">
+                                <ol class="dd-list">
+                                    <li class="dd-item dd3-item" data-id="13">
+                                        <div class="dd-handle dd3-handle"></div>
+                                        <div class="dd3-content">Item 13</div>
+                                    </li>
+                                    <li class="dd-item dd3-item" data-id="14">
+                                        <div class="dd-handle dd3-handle"></div>
+                                        <div class="dd3-content">Item 14</div>
+                                    </li>
+                                    <li class="dd-item dd3-item" data-id="15">
+                                        <div class="dd-handle dd3-handle"></div>
+                                        <div class="dd3-content">Item 15</div>
+                                        <ol class="dd-list">
+                                            <li class="dd-item dd3-item" data-id="16">
+                                                <div class="dd-handle dd3-handle"></div>
+                                                <div class="dd3-content">Item 16</div>
+                                            </li>
+                                            <li class="dd-item dd3-item" data-id="17">
+                                                <div class="dd-handle dd3-handle"></div>
+                                                <div class="dd3-content">Item 17</div>
+                                            </li>
+                                            <li class="dd-item dd3-item" data-id="18">
+                                                <div class="dd-handle dd3-handle"></div>
+                                                <div class="dd3-content">Item 18</div>
+                                            </li>
+                                        </ol>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+            </div>
+        </div>
+        <!--body wrapper end-->
+
+        <!--footer section start-->
+        <footer>
+            2016 &copy; Memory
+        </footer>
+        <!--footer section end-->
+
+
+    </div>
+    <!-- main content end-->
+</section>
+
+<!-- Placed js at the end of the document so the pages load faster -->
+<script src="/js/jquery-1.10.2.min.js"></script>
+<script src="/js/jquery-ui-1.9.2.custom.min.js"></script>
+<script src="/js/jquery-migrate-1.2.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/modernizr.min.js"></script>
+<script src="/js/jquery.nicescroll.js"></script>
+
+<script src="/js/nestable/jquery.nestable.js"></script>
+<script src="/js/nestable-init.js"></script>
+
+<!--common scripts for all pages-->
+<script src="/js/scripts.js"></script>
+
+<script type="text/javascript">
+    function loginPost(){
+        var mes = $("#log").text();
+        if(mes == "Log In")
+        {
+            location.href = "/web/login";
+        }
+        else
+        {
+            $.post('/logout', function (result) {
+                if (result.success) {
+                    location.href = "/web/login";
+                }
+                else {
+                    alert("Log Out Failed")
+                }
+            })
+        }
+    }
+
+</script>
+</body>
+</html>

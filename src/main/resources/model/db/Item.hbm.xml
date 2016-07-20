@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC  
+                            "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+                            "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="model.db">
+	<class name="Item" table="item">
+		<id name="id" column="id">
+			<generator class="native"></generator>  
+		</id>
+		<property name="imageId" column="image_id" type="java.lang.Integer"
+			not-null="false" length="10" />
+		<property name="isbn" column="ISBN" type="java.lang.String"
+			not-null="false" length="40" />
+		<property name="musicId" column="music_id" type="java.lang.Integer"
+			not-null="false" length="10" />
+		<property name="memoryId" column="memory_id" type="java.lang.Integer"
+			not-null="false" length="10"/>
+		<property name="userName" column="user_name" type="java.lang.String"
+			not-null="false" length="10"/>
+		<set name="markSet" lazy="true" inverse="true">
+            <key>
+                <column name="id" not-null="true" />
+            </key>
+            <one-to-many class="Mark" />
+        </set>
+		<property name="status" column="status" type="char"/>
+	</class>
+</hibernate-mapping> 
