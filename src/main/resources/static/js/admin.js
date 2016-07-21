@@ -120,7 +120,7 @@ var EditableTable = function () {
 
                 var nRow = $(this).parents('tr')[0];
                 var aData = oTable.fnGetData(nRow);
-                $.postJSON('/web/admin/delete', {name:aData[0],pwd:aData[1].value},function(result){
+                $.postJSON('/web/admin/delete', {name:aData[0],password:aData[1]},function(result){
                     if(result.success)
                     {
                         location.href = "/web/admin";

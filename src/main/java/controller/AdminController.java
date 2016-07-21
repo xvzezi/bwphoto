@@ -356,7 +356,7 @@ public class AdminController {
 		}
 		else
 		{
-			Log.log.log("/web/general/delete").log("POST")
+			Log.log.log("/web/generaluser/delete").log("POST")
 					.log("user:").log(user.getName())
 					.log(mes).log();
 			rg.setFail("DELETE Failed");

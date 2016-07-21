@@ -1,0 +1,25 @@
+
+
+Ioc.xml
+
+src/main/java中
+service中：userService
+           wordService
+service.imple中：userServiceImpl
+                 wordServiceImpl
+dao中：userDao
+dao.imple中：userDaoImpl
+Controller中：AdminController
+
+src/main/resources中
+Template中：
+          admin.html
+          generaluser.html
+          index.html
+          music.huml
+          words.html
+
+static/js中：
+           admin.js
+           words.js
+           generaluser.js
