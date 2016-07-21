@@ -4,8 +4,11 @@ import DAO.ItemDao;
 import DAO.MemoryDao;
 import model.db.Item;
 import model.db.Memory;
+import java.sql.Timestamp;
+import java.util.Date;
 import service.WordService;
 import util.Log;
+import javax.servlet.http.HttpSession;
 
 import java.util.List;
 
@@ -63,7 +66,39 @@ public class WordServiceImpl implements WordService
         return memoryDao.getAll();
     }
 
+    public String updateMemory(Memory memory, HttpSession session) {
+        if(memoryDao.FindMemoryById(memory.getId())!=null){
+            Memory m=memoryDao.FindMemoryById(memory.getId());
+            memory.setTime(m.getTime());
+            memoryDao.updateMemory(memory);
+            return"SUCCESS";
+        }
+        else if(memoryDao.FindMemoryById(memory.getId())==null){
+            //管理员页面部分填入的时间部分是没有用的,存入数据库的时间在这一层中
+            memory.setTime(new Timestamp(new Date().getTime()));
+            memoryDao.saveObject(memory);
+            return "SUCCESS";
 
+        }
+        else{
+            return"Fail";
+
+        }
+    }
+
+    public String deleteMemory(Memory memory, HttpSession session) {
+        int id=memory.getId();
+        Memory m=memoryDao.FindMemoryById(id);
+        if(m!=null){
+            memoryDao.deleteMemory(m);
+            return "SUCCESS";
+        }
+        else
+        {
+            return "Memory Not Found";
+
+        }
+    }
 
     public ItemDao getItemDao()
     {

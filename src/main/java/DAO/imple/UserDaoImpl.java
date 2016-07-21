@@ -90,5 +90,58 @@ public class UserDaoImpl implements UserDao{
 			return null;
 		}
 	}
+	/**
+	 * 查找所有管理员
+	 * @param null
+	 * @return List<User>
+	 */
+	public List<User> FindAdmin() {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		String hql = "from User as user where role=? ";
+		Query query=session.createQuery(hql);
+		query.setInteger(0, 1);
+		List userList = query.list();
+		session.getTransaction().commit();
+		if (userList != null && userList.size() >= 1) {
+			return (List<User>) userList;
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * 查找所有用户
+	 * @param null
+	 * @return List《User>
+	 */
+	public List<User> FindAll() {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		String hql = "select user from User as user ";
+		Query query=session.createQuery(hql);
+		List userList = query.list();
+		session.getTransaction().commit();
+		if (userList != null && userList.size() >= 1) {
+			return (List<User>) userList;
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * 删除用户
+	 * @param null
+	 * @return void
+	 */
+	@Override
+	public void deleteUser(User user) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		session.delete(user);
+		session.getTransaction().commit();
+
+	}
+
 } 
  

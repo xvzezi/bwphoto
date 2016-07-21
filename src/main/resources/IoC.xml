@@ -62,6 +62,12 @@
 		<property name="markDao" ref="markDao"/>
 	</bean>
 
+	<!--用户信息 服务 -->
+	<bean id="userService" class="service.imple.UserServiceImpl">
+		<property name="dao" ref="userDao"/>
+	</bean>
+
+
 	<!-- Mongo Database连接-->
 	<bean id="mongodb" class="util.MongoConfig">
 		<property name="ip">

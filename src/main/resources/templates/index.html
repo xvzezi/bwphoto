@@ -86,8 +86,8 @@
                 </li>
                 <li class="menu-list"><a href=""><i class="fa fa-users"></i> <span>Users</span></a>
                     <ul class="sub-menu-list">
-                        <li><a href="#"> General</a></li>
-                        <li><a href="#"> Admin</a></li>
+                        <li><a href="/web/generaluser"> General</a></li>
+                        <li><a href="/web/admin"> Admin</a></li>
                     </ul>
                 </li>
 
@@ -304,28 +304,28 @@
     
     $(document).ready(		
     function (){
-        $.get('/web/totalresources',function(data){
-        	 $("#totalresources").append(data.result);	
+        $.get('/statistics/resources',function(data){
+        	 $("#totalresources").append(data.amount);
         });
     });
     
     $(document).ready(		
     	    function (){
-    	        $.get('/web/totalfriends',function(data){
-    	        	 $("#totalfriends").append(data.result);	
+    	        $.get('/statistics/friends',function(data){
+    	        	 $("#totalfriends").append(data.amount);
     	        });
     	    });
     
     $(document).ready(		
     	    function (){
-    	        $.get('/web/todayresources',function(data){
-    	        	 $("#newresources").append(data.result);	
+    	        $.get('/statistics/resources/new',function(data){
+    	        	 $("#newresources").append(data.amount);
     	        });
     	    });
     
     $(document).ready(		
     	    function (){
-    	        $.get('/web/uniquevisitors',function(data){
+    	        $.get('/statistics/visitors',function(data){
     	        	 $("#uniquevisitors").append(data.amount);	
     	        });
     	    });

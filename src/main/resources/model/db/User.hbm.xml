@@ -20,6 +20,8 @@
 			not-null="true"  />
 		<property name="birth" column="birth" type="java.sql.Date"
 			not-null="true"  />
+		<property name="content" column="content" type="java.lang.String"
+				  not-null="false"  />
 		<!--  
 		<set name="friendSet" lazy="true" inverse="true">
             <key>

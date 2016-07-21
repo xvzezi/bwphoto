@@ -2,6 +2,7 @@ package controller;
 
 import javax.servlet.http.HttpSession;
 
+import model.IntegerMes;
 import model.UserForm;
 import model.db.Memory;
 import model.db.User;
@@ -15,6 +16,7 @@ import model.SimpleUser;
 import service.LogService;
 import service.RegisterService;
 import service.WordService;
+import service.UserService;
 import util.DateGetAge;
 import util.Log;
 import util.SpringIoC;
@@ -115,6 +117,7 @@ public class AdminController {
 		return rg;
 	}
 
+
 	@RequestMapping("/web/music")
 	public String musicResource(HttpSession session, Model model)
 	{
@@ -159,5 +162,205 @@ public class AdminController {
 		return "words";
 	}
 
+	/*
+	 * @func：编辑回忆函数
+	 * @     如果有id则修改，没有则添加
+	 */
+	@RequestMapping(value = "/web/words/edit", method = RequestMethod.POST)
+	@ResponseBody
+	public RegMes editWords(@RequestBody Memory memory, HttpSession session, Model model)
+	{
+		// do edit
+		WordService doedit = SpringIoC.idGetter("wordService", WordService.class);
 
+		String mes = doedit.updateMemory(memory, session);
+		RegMes rg = new RegMes();
+		if(mes.equals("SUCCESS"))
+		{
+			Log.log.log("/web/words/edit").log("POST")
+					.log("content:").log(memory.getContent())
+					.log(mes).log();
+			rg.setSuccess("EDIT Success");
+		}
+		else
+		{
+			Log.log.log("/web/login").log("POST")
+					.log("content:").log(memory.getContent())
+					.log(mes).log();
+			rg.setFail("EDIT Failed");
+		}
+		return rg;
+	}
+
+
+	@RequestMapping(value = "/web/words/delete", method = RequestMethod.POST)
+	@ResponseBody
+	public RegMes deleteWords(@RequestBody Memory memory, HttpSession session, Model model)
+	{
+		// do delete
+		WordService dodel = SpringIoC.idGetter("wordService", WordService.class);
+
+		String mes = dodel.deleteMemory(memory, session);
+		RegMes rg = new RegMes();
+		if(mes.equals("SUCCESS"))
+		{
+			Log.log.log("/web/words/delete").log("POST")
+					.log("content:").log(memory.getContent())
+					.log(mes).log();
+			rg.setSuccess("DELETE Success");
+		}
+		else
+		{
+			Log.log.log("/web/words/delete").log("POST")
+					.log("content:").log(memory.getContent())
+					.log(mes).log();
+			rg.setFail("DELETE Failed");
+		}
+		return rg;
+	}
+
+	@RequestMapping("/web/admin")
+	public String adminResource(HttpSession session, Model model)
+	{
+		// do log
+		Log.log.log("/web/admin").log("test").log("connected").log();
+
+		UserService getAdmin=SpringIoC.idGetter("userService", UserService.class);
+		List<User>list= getAdmin.getAdmin();
+		session.setAttribute("list",list );
+
+		Log.log.log("/web/admin GET").log();
+
+
+
+		model.addAttribute("test", "test");
+		model.addAttribute("list",session.getAttribute("list"));
+
+		return "admin";
+	}
+
+	@RequestMapping(value = "/web/admin/edit", method = RequestMethod.POST)
+	@ResponseBody
+	public RegMes editAdmin(@RequestBody User user, HttpSession session, Model model)
+	{
+		// do edit
+		UserService doedit = SpringIoC.idGetter("userService", UserService.class);
+		user.setRole(1);
+		String mes = doedit.updateUser(user, session);
+		RegMes rg = new RegMes();
+		if(mes.equals("SUCCESS"))
+		{
+			Log.log.log("/web/admin/edit").log("POST")
+					.log("user:").log(user.getName())
+					.log(mes).log();
+			rg.setSuccess("EDIT Success");
+		}
+		else
+		{
+			Log.log.log("/web/admin/edit").log("POST")
+					.log("user:").log(user.getName())
+					.log(mes).log();
+			rg.setFail("EDIT Failed");
+		}
+		return rg;
+	}
+
+
+	@RequestMapping(value = "/web/admin/delete", method = RequestMethod.POST)
+	@ResponseBody
+	public RegMes deleteAdmin(@RequestBody User user, HttpSession session, Model model)
+	{
+		// do delete
+		UserService dodel = SpringIoC.idGetter("userService", UserService.class);
+
+		String mes = dodel.deleteUser(user, session);
+		RegMes rg = new RegMes();
+		if(mes.equals("SUCCESS"))
+		{
+			Log.log.log("/web/admin/delete").log("POST")
+					.log("user:").log(user.getName())
+					.log(mes).log();
+			rg.setSuccess("DELETE Success");
+		}
+		else
+		{
+			Log.log.log("/web/admin/delete").log("POST")
+					.log("user:").log(user.getName())
+					.log(mes).log();
+			rg.setFail("DELETE Failed");
+		}
+		return rg;
+	}
+
+	@RequestMapping("/web/generaluser")
+	public String generalUserResource(HttpSession session, Model model)
+	{
+		// do log
+		Log.log.log("/web/generaluser").log("test").log("connected").log();
+
+		UserService getGen=SpringIoC.idGetter("userService", UserService.class);
+		List<User>list= getGen.getGeneral();
+		session.setAttribute("list",list );
+
+		Log.log.log("/web/generaluser GET").log();
+
+
+
+		model.addAttribute("test", "test");
+		model.addAttribute("list",session.getAttribute("list"));
+
+		return "generaluser";
+	}
+
+	@RequestMapping(value = "/web/generaluser/edit", method = RequestMethod.POST)
+	@ResponseBody
+	public RegMes editGeneral(@RequestBody User user, HttpSession session, Model model)
+	{
+		// do edit
+		UserService doedit = SpringIoC.idGetter("userService", UserService.class);
+		String mes = doedit.updateUser(user, session);
+		RegMes rg = new RegMes();
+		if(mes.equals("SUCCESS"))
+		{
+			Log.log.log("/web/generaluser/edit").log("POST")
+					.log("user:").log(user.getName())
+					.log(mes).log();
+			rg.setSuccess("EDIT Success");
+		}
+		else
+		{
+			Log.log.log("/web/generaluser/edit").log("POST")
+					.log("user:").log(user.getName())
+					.log(mes).log();
+			rg.setFail("EDIT Failed");
+		}
+		return rg;
+	}
+
+
+	@RequestMapping(value = "/web/generaluser/delete", method = RequestMethod.POST)
+	@ResponseBody
+	public RegMes deleteUser(@RequestBody User user, HttpSession session, Model model)
+	{
+		// do delete
+		UserService dodel = SpringIoC.idGetter("userService", UserService.class);
+
+		String mes = dodel.deleteUser(user, session);
+		RegMes rg = new RegMes();
+		if(mes.equals("SUCCESS"))
+		{
+			Log.log.log("/web/generaluser/delete").log("POST")
+					.log("user").log(user.getName())
+					.log(mes).log();
+			rg.setSuccess("DELETE Success");
+		}
+		else
+		{
+			Log.log.log("/web/general/delete").log("POST")
+					.log("user:").log(user.getName())
+					.log(mes).log();
+			rg.setFail("DELETE Failed");
+		}
+		return rg;
+	}
 }
