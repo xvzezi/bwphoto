@@ -96,12 +96,11 @@ public class Resource
 
 	/**
 	 * 创建资源
-	 * @param bi
 	 * @param session
 	 * @return
 	 */
 	@RequestMapping(value = "/resources", method = RequestMethod.POST)
-	public Object createResource(@RequestBody BasicInfo bi, HttpSession session)
+	public Object createResource(HttpSession session)
 	{
 		//check session
 		String name = (String)session.getAttribute("name");
@@ -112,7 +111,7 @@ public class Resource
 
 		//create the resource
 		ResourceService rs = SpringIoC.idGetter("resourceService", ResourceService.class);
-		Item result = rs.createResource(name, bi);
+		Item result = rs.createResource(name, new BasicInfo());
 		if(result != null)
 		{
 			Log.log.log("/resources POST").log("logged by").log(name).log("success").log();
@@ -122,6 +121,56 @@ public class Resource
 		{
 			return FAIL("Creation Failed");
 		}
+	}
+	/**
+	 * 将资源的种类改换为public或者private
+	 * @param resource_id
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "/resources/{resource_id}/public", method=RequestMethod.PUT)
+	public RegMes makePublic(@PathVariable int resource_id, HttpSession session)
+	{
+		// log check
+		String name = (String)session.getAttribute("name");
+		if(name == null)
+		{
+			return FAIL("Not Logged");
+		}
+
+		// check auth
+		PRV prv = goCheckOwner(resource_id, name);
+		if(prv != PRV.P_OWNER)
+		{
+			return FAIL("No Auth");
+		}
+		// do the change
+		ResourceService rs = SpringIoC.idGetter("resourceService", ResourceService.class);
+		char old = rs.changeToPublic(name, resource_id);
+		return SUCCESS(""+old);
+	}
+
+	@RequestMapping(value = "/resources/{resource_id}/private", method=RequestMethod.PUT)
+	public RegMes makePrivate(@PathVariable int resource_id, HttpSession session)
+	{
+		// log check
+		String name = (String)session.getAttribute("name");
+		if(name == null)
+		{
+			return FAIL("Not Logged");
+		}
+
+		// check auth
+		PRV prv = goCheckOwner(resource_id, name);
+		if(prv != PRV.P_OWNER)
+		{
+			return FAIL("No Auth");
+		}
+
+		// do the change
+		ResourceService rs = SpringIoC.idGetter("resourceService", ResourceService.class);
+		char old = rs.changeToPrivate(name, resource_id);
+		return SUCCESS(""+old);
 	}
 
 	/**
