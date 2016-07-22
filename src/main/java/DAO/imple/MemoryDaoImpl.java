@@ -99,7 +99,8 @@ public class MemoryDaoImpl implements MemoryDao
 		query.setString(0, content);
 		
 		List memoryList = query.list();  
-		if (memoryList != null && memoryList.size() >= 1) 
+		session.getTransaction().commit();
+	    if (memoryList != null && memoryList.size() >= 1)
 		{
 			return (List<Memory>) memoryList;
 		}                                    
@@ -116,6 +117,7 @@ public class MemoryDaoImpl implements MemoryDao
 		String hql = "from Memory";
 		Query query = session.createQuery(hql);
 		List result = query.list();
+		session.getTransaction().commit();
 		return (List<Memory>)result;
 	}
 }
