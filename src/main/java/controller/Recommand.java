@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import util.StatisticUtil;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -66,5 +67,15 @@ public class Recommand
 	//TODO: connected resources order by time
 	//time, tag, age,
 	//image character match, 特征值储存在数据库
+
+	@RequestMapping(value = "/rec/tags", method = RequestMethod.GET)
+	public List<User> getUsers()
+	{
+		User robot = new User();
+		robot.setName("Server Robot");
+		List<User> us = new ArrayList<>();
+		us.add(robot);
+		return us;
+	}
 
 }
