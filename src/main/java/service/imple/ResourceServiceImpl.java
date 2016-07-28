@@ -1,6 +1,8 @@
 package service.imple;
 
+import DAO.FriendDao;
 import DAO.ItemDao;
+import controller.Friend;
 import model.BasicInfo;
 import model.db.Item;
 import model.db.User;
@@ -31,6 +33,8 @@ public class ResourceServiceImpl implements ResourceService
     {
         this.dao = id;
     }
+    private FriendDao friendDao;
+    public void setFriendDao(FriendDao friendDao) { this.friendDao = friendDao; }
 
     /**
      * 获取资源，如果有id，则获取某个资源
@@ -44,7 +48,7 @@ public class ResourceServiceImpl implements ResourceService
         //get all the resources
         if(resource_id < 0)
         {
-            List<Item> lis = dao.FindItemByuserName(name);
+            List<Item> lis = dao.FindItemByUsername(name, null, 0, true);
             return lis;
         }
 
@@ -116,7 +120,7 @@ public class ResourceServiceImpl implements ResourceService
      */
     public List<Item> getLatestResource(Timestamp timestamp, int amount)
     {
-        return null;
+        return dao.getItems(timestamp, amount);
     }
 
     /**
@@ -161,5 +165,41 @@ public class ResourceServiceImpl implements ResourceService
         item.setStatus('n');
         dao.updateItem(item);
         return old;
+    }
+
+    /**
+     * 查看好友的最近信息
+     * @param name
+     * @param timestamp
+     * @param amount
+     * @return 朋友最近的信息
+     *          返回朋友当中最近的、以时间戳为起点的、不超过amount个数的resources
+     */
+    public List<Item> getFriendAndLatest(String name, Timestamp timestamp, int amount)
+    {
+        List<String> names = friendDao.findFriendRetNames(name);
+        return dao.findItemOfUserFriend(names, timestamp, amount);
+    }
+
+    /**
+     * 获取某个人的信息
+     * @param tarname
+     * @param username
+     * @param timestamp
+     * @param amount
+     * @return 某个人的信息
+     *      查询者为自己的情况下——获取全部信息，按照给与的timestamp去fetch
+     *      查询他人的情况下——只能获取状态为public 的部分
+     */
+    public List<Item> getPersonalResource(String tarname, String username, Timestamp timestamp, int amount)
+    {
+        if(username.equals(tarname))
+        {
+            return dao.FindItemByUsername(tarname, timestamp, amount, true);
+        }
+        else
+        {
+            return dao.FindItemByUsername(tarname, timestamp, amount, false);
+        }
     }
 }

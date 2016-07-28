@@ -1,6 +1,7 @@
 package model.db;
 
 import java.util.Set;
+import java.sql.Timestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -20,7 +21,7 @@ public class Item{
 	private String isbn;
 	
 	@JsonProperty("music_id")
-	private Integer musicId;
+	private String musicId;
 	
 	@JsonProperty("memory_id")
 	private Integer memoryId;
@@ -33,6 +34,9 @@ public class Item{
 
 	@JsonProperty
 	private char status;
+
+	@JsonProperty
+	private Timestamp time;
 
 	public Integer getId() {
 		return id;
@@ -52,10 +56,10 @@ public class Item{
 	public void setIsbn(String isbn) {
 		this.isbn = isbn;
 	}
-	public Integer getMusicId() {
+	public String getMusicId() {
 		return musicId;
 	}
-	public void setMusicId(Integer musicId) {
+	public void setMusicId(String musicId) {
 		this.musicId = musicId;
 	}
 	
@@ -91,6 +95,16 @@ public class Item{
 	public void setStatus(char status)
 	{
 		this.status = status;
+	}
+
+	public Timestamp getTime()
+	{
+		return time;
+	}
+
+	public void setTime(Timestamp time)
+	{
+		this.time = time;
 	}
 }
 

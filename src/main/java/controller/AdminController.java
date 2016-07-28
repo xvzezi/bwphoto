@@ -23,6 +23,11 @@ import util.SpringIoC;
 
 import java.util.List;
 
+/**
+ * Admin Pg To Control
+ * @since some time
+ * @author Xu Zezi & Zhou TQ
+ */
 @Controller
 public class AdminController {
 	@RequestMapping("/web")

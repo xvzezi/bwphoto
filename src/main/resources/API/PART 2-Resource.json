@@ -1,0 +1,238 @@
+                                            The Memory
+                                        all rights reserved
+    Tip: This is a periodical document, including available API on running server, which may have impropriate 
+design or mistakes. When you encounter a problem, please report to the backend developer, after you have tried
+debugging precisely through this doc.
+
+    Update
+        - 2016/7/19 Now you can get public resources through timestamp
+                    Now you can delete a resource if you have the auth
+                    Now the timestamp is not neccessary, because the server generate automatically
+                    Now resource has attribute status, default public, '1' means public
+                    Now you can change a person's resource's status with permission
+
+PART II: Resource
+1.  Resource
+  Get All Resources
+    url:        /resources
+    method:     GET
+    response:
+                [
+                    {
+                        "id":1,
+                        "name":"Sturmfy",
+                        "status":"1"
+                    }
+                    {
+                        "id":72,
+                        "name":"Sturmfy",
+                        "memory_id":1,
+                        "image_id":2,
+                        "status":'1'
+                    }
+                ]
+
+  Get Latest Resources
+    url:        /resources/latest
+    method:     GET
+    response:
+                [
+                    {
+                        "id":1,
+                        "name":"name1",
+                        "timestamp":1468909652402
+                    }
+                ]
+    WARN:  do not need to login to use this API; it gives out with default 10 resources
+
+  Get Resources After Given Timestamp
+    url:        /resources/latest/{timestamp}
+    method:     GET
+    request:
+                PARAM:  timestamp   Timestamp
+    response:
+                [
+                    {
+                        "id":2,
+                        "name":"Sturmfy",
+                        "timestamp":1468909652403
+                    }
+                ]
+    WARN:  do not need to login to use this API; it gives out with default 10 resources
+
+  Get Resources Of Friends Latest
+    url:        /resources/friends
+    method:     GET
+    response:
+                [
+                    {
+                        "id":2,
+                        "name":"name1",
+                        "status":"1",
+                        "timestamp":1468909652403
+                    }
+                ]
+    WARN:   you can only get public resources from friends
+
+  Get Resources Of Friends Throught A Given Timestamp
+    url:        /resources/friends/{timestamp}
+    method:     GET
+    request:    
+                PARAM:  timestamp   Timestamp
+    response:
+                [
+                    {
+                        "id":2,
+                        "name":"name1",
+                        "status":"1",
+                        "timestamp":1468909652404
+                    }
+                ]
+
+  Get Resources Of Oneself
+    url:        /resources/self
+    method:     GET
+    response:
+                [
+                    {
+                        ...
+                    }
+                ]
+
+  Get Resources Of Oneself Through A Given Timestamp
+    url:        /resources/self/{timestamp}
+    method:     GET
+    request:    
+                PARAM:  timestamp   Timestamp
+    response:
+                [
+                    {
+                        ...
+                    }
+                ]
+
+  Get A Resource By Id
+    url:        /resources/{resource_id}
+    method:     GET
+    request:
+                PARAM:  resource_id Integer
+    response:
+                {
+                    "id":72,
+                    "name":"Sturmfy",
+                    "memory_id":1,
+                    "image_id":2
+                }
+
+  Create A Resource
+    url:        /resources
+    method:     POST
+    response:
+                {
+                    "id":78,
+                    "name":"Sturmfy",
+                    "timestamp":178681512
+                }
+
+  Delete A Resource
+    url:        /resources/{resource_id}
+    method:     DELETE
+    response:   
+                {
+                    "success":"Deletion Succeeded"
+                }
+
+  Make A Resource Public
+    url:        /resources/{resource_id}/public
+    method:     PUT
+    response:
+                TIP:  returns the old status of the resource
+                {
+                    "success":"y"
+                }
+
+  Make A Resource Private
+    url:        /resources/{resource_id}/private
+    method:     PUT
+    response:
+                TIP:  returns the old status of the resource
+                {
+                    "success":"y"
+                }
+
+2.  Memory
+  Get Memory
+    url:        /resources/{resource_id}/words
+    method:     GET
+    response:
+                {
+                    "id":2,
+                    "content":"life is so different here. when I feel the life before
+                                , I indeed get my life.",
+                    "timestamp":1248794565
+                }
+  
+  Create Memory
+    url:        /resources/{resource_id}/words
+    method:     POST
+    response:
+                {
+                    "fail":"failed for some reason"
+                }
+                {
+                    "success":"create succeeded"
+                }
+    request:
+                {
+                    "content":"I wanna change my life"
+                }
+
+3.  Image
+  Download Image Of A Resource
+    url:        /resources/{resource_id}/image
+    method:     GET
+    header:     {"Content-Type":"application/octet-stream"}
+    response:   image file stream
+
+  Upload
+    url:        /resources/{resource_id}/image
+    method:     POST
+    header:     {"Content-Type":"multipart/form-data"}
+    request:    image file stream
+    response:
+                {
+                    "fail":"Something's wrong"
+                }
+                {
+                    "success":"image upload succeeded"
+                }
+
+4.  Tag
+  Get A Resource's Tags
+    url:        /resources/{resource_id}/tags
+    method:     GET
+    request:    
+                PARAM:  resource_id     int
+    response:
+                [
+                    {
+                        "name":"heart"
+                    }
+                    {
+                        "name":"love"
+                    }
+                    {
+                        "name":"gay"
+                    }
+                ]
+
+  Create A Tag On A Resource
+    url:        /resources/{resource_id}/tags{tag_name}
+    method:     POST
+    request:
+                PARAM:  resource_id     int
+                PARAM:  tag_name        String
+    response:
+                {
+                    "success":"succeeded"
+                }

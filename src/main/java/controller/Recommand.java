@@ -68,6 +68,10 @@ public class Recommand
 	//time, tag, age,
 	//image character match, 特征值储存在数据库
 
+	/**
+	 * Zombie Test Recommend
+	 * @return
+	 */
 	@RequestMapping(value = "/rec/tags", method = RequestMethod.GET)
 	public List<User> getUsers()
 	{

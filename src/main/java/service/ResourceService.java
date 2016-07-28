@@ -3,6 +3,7 @@ package service;
 import model.BasicInfo;
 import model.db.Item;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import java.util.List;
  *      1   Fetch resource by timestamp   2016/7/19
  *      1.1 auth improved                 2016/7/19
  *      1.2 auth change function          2016/7/19
+ *      2.0 auth control and resource added 2016/7/28
  */
 public interface ResourceService
 {
@@ -70,4 +72,26 @@ public interface ResourceService
      */
     public char changeToPublic(String name, int resource_id);
     public char changeToPrivate(String name, int resource_id);
+
+	/**
+	 * 查看好友的最近信息
+	 * @param name
+	 * @param timestamp
+	 * @param amount
+	 * @return 朋友最近的信息
+	 *          返回朋友当中最近的、以时间戳为起点的、不超过amount个数的resources
+	 */
+	public List<Item> getFriendAndLatest(String name, Timestamp timestamp, int amount);
+
+	/**
+	 * 获取某个人的信息
+	 * @param tarname
+	 * @param username
+	 * @param timestamp
+	 * @param amount
+	 * @return 某个人的信息
+	 *      查询者为自己的情况下——获取全部信息，按照给与的timestamp去fetch
+	 *      查询他人的情况下——只能获取状态为public 的部分
+	 */
+	public List<Item> getPersonalResource(String tarname, String username, Timestamp timestamp, int amount);
 }

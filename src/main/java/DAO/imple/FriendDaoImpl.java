@@ -83,13 +83,28 @@ public class FriendDaoImpl implements FriendDao
 		{
 			session.delete(friendList.get(0));	
 		}
-		else 
-		{
-			return;
-		}
+
 		session.getTransaction().commit();
-		
 	};
+
+
+	/**
+	 * 找到所有的朋友
+	 * @param name
+	 * @return 所有的朋友
+	 *      由于上一个有冗余，所以有一个仅由名字构成的版本
+	 */
+	public List<String> findFriendRetNames(String name)
+	{
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		String hql = "select frName from Friend where myName=?";
+		Query query = session.createQuery(hql).setString(0, name);
+		List<String> names = query.list();
+		session.getTransaction().commit();
+		return names;
+	}
+
 }
 
 	

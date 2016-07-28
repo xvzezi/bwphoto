@@ -68,6 +68,7 @@ public class FriendRequestDaoImpl implements FriendRequestDao
 		model.db.FriendRequest fr = (model.db.FriendRequest)query.uniqueResult();
 		if(fr == null)
 		{
+			session.getTransaction().commit();
 			return 0;
 		}
 		char oldStatus = fr.getStatus();

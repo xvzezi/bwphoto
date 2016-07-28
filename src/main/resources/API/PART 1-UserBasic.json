@@ -1,0 +1,97 @@
+                                            The Memory
+                                        all rights reserved
+    Tip: This is a periodical document, including available API on running server, which may have impropriate 
+design or mistakes. When you encounter a problem, please report to the backend developer, after you have tried
+debugging precisely through this doc.
+
+PART I: User Identity
+1.  Log In
+    url:        /login
+    method:     POST
+    request:
+                {
+                    "name":"Sturmfy",
+                    "password":"1234"
+                }
+    response:
+                when login failed, it returns the reason cause the failure
+                {
+                    "fail":"User Not Exist Or Password Not Match"
+                }
+                when login succeeded, it returns a candy
+                {
+                    "success":"Login Success with old user "
+                }
+                when re-login with other user logged, it returns the old user's name
+                {
+                    "success":"Login Success with old user name1"
+                }
+
+2.  Log Out
+    url:        /logout
+    method:     POST
+    response:
+                when no user logged, or the logged user is out-of-time
+                {
+                    "fail":"No User Logged"
+                }
+                otherwise
+                {
+                    "success":"Log out success"
+                }
+
+3.  Register
+    url:        /identity/reg
+    method:     POST
+    request:
+                {
+                    "name":"Sturmfy",
+                    "password":"1234",
+                    "role": 1,
+                    "email":"123@email.com",
+                    "age":"20",
+                    "content":"A cute boy ready for love"
+                }
+    response:
+                {
+                    "fail":"user exists"
+                }
+                {
+                    "success":"Register Success!"
+                }
+
+4.  User Detail
+    url:        /identity/detail
+    method:     GET
+    response:
+                {
+                    "name":"Sturmfy",
+                    "role": 1,
+                    "email":"123@email.com",
+                    "age":"20",
+                    "content":"A cute boy ready for love"
+                }
+                when not logged
+                {
+
+                }
+
+5.  User Profile
+  Download
+    url:        /identity/profile
+    method:     GET
+    header:     {"Content-Type":"application/octet-stream"}
+    response:   image file stream
+
+  Upload
+    url:        /identity/profile
+    method:     POST
+    header:     {"Content-Type":"multipart/form-data"}
+    request:    image file stream
+    response:
+                {
+                    "fail":"Something's wrong"
+                }
+                {
+                    "success":"image upload succeeded"
+                }

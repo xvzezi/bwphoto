@@ -1,0 +1,88 @@
+                                            The Memory
+                                        all rights reserved
+    Tip: This is a partial document supplemented towards the previous document. It add serveral accessible
+newly implemented API to use. When you encounter a problem, please report to the backend developer if you can
+not solve it due to an internal server error.
+
+PART III: Friends
+1.  Friends
+  Get All Friends
+    url:        /friends
+    method:     GET
+    response:
+                [
+                    {
+                        "myName":"Sturmfy",
+                        "frName":"name1"
+                    }
+                ]
+
+  Delete A Friend
+    url:        /friends/{user_name}
+    method:     DELETE
+    response:
+                {
+                    "success":"success"
+                }
+
+2.  Friends Request     -- Tip: '-': waiting, 'y': proved, 'n': denied
+  Apply To Be Friend
+    url:        /friends/apply/{user_name}
+    method:     POST
+    response:
+                {
+                    "success":"success"
+                }
+
+  Get All Requests Of Making Friends As Applyer
+    url:        /friends/apply
+    method:     GET
+    response:
+                [
+                    {
+                        "applyer":"Sturmfy",
+                        "applyee":"name1",
+                        "status":"-"
+                    }
+                    {
+                        "applyer":"Sturmfy",
+                        "applyee":"name2",
+                        "status":"y"
+                    }
+                    {
+                        "applyer":"Sturmfy",
+                        "applyee":"name3",
+                        "status":"n"
+                    }
+                ]
+    ALERT:  When you call this api, the Friend-Requests with status 'y' or 'n' will be deleted at once.
+            Be careful.
+
+  Get All Requests Of Making Friends As Applyee
+    url:        /friends/make
+    method:     GET
+    response:   
+                [
+                    {
+                        "applyer":"Sturmfy",
+                        "applyee":"name1",
+                        "status":"-"
+                    }
+                ]
+    ALERT:  This api only returns Friend-Requests with status '-'
+
+  Agree To Be A Friend With This Guy
+    url:        /friends/make/{user_name}
+    method:     POST
+    response:  
+                {
+                    "success":"success"
+                }
+
+  Reject To Be A Friend With This Guy
+    url:        /friends/make/{user_name}
+    method:     DELETE
+    response:
+                {
+                    "success":"success"
+                }
