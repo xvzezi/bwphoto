@@ -44,6 +44,7 @@ public class ItemDaoImpl implements ItemDao
 			hql = "from Item where time < ? and status='1' order by time";
 		}
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
 		Query query = session.createQuery(hql);
 		if(timestamp != null)
 		{
