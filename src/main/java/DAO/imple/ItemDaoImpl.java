@@ -10,6 +10,7 @@ import DAO.ItemDao;
 import model.db.Book;
 import model.db.Item;
 import util.HibernateUtil;
+import util.Log;
 
 /**
  * ItemDaoImpl
@@ -54,8 +55,17 @@ public class ItemDaoImpl implements ItemDao
 		{
 			query.setFetchSize(amount);
 		}
-		List<Item> items = query.list();
-		session.getTransaction().commit();
+		List<Item> items = null;
+		try
+		{
+			items = query.list();
+		}catch (Exception e)
+		{
+			Log.log.log("Error In ItemDao getItems:").log(e.getMessage()).log();
+		}finally
+		{
+			session.getTransaction().commit();
+		}
 		return items;
 	}
 	
