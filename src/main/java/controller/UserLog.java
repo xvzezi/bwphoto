@@ -120,17 +120,11 @@ public class UserLog {
 	 * @param session
 	 * @return 图片
      */
-	@RequestMapping(value="/identity/profile", method = RequestMethod.GET)
-	public ResponseEntity<InputStreamResource> downloadProfile(HttpSession session)
+	@RequestMapping(value="/identity/profile/{username}", method = RequestMethod.GET)
+	public ResponseEntity<InputStreamResource> downloadProfile(@PathVariable String username, HttpSession session)
 	{
 		Log.log.log("get in here").log();
 		//check
-		String username = (String)session.getAttribute("name");
-		if(username == null)
-		{
-			return defaultProfile("/profile/default.png");
-		}
-
 		//get what we get
 		ProfileService ps = SpringIoC.idGetter("profileService", ProfileService.class);
 		InputStream is = ps.getProfile(username);

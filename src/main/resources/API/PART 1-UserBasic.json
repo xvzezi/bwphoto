@@ -78,7 +78,7 @@ PART I: User Identity
 
 5.  User Profile
   Download
-    url:        /identity/profile
+    url:        /identity/profile/{username}
     method:     GET
     header:     {"Content-Type":"application/octet-stream"}
     response:   image file stream
