@@ -35,7 +35,7 @@ public class Mark
 	public Object getMarks(@PathVariable int resource_id, HttpSession session)
 	{
 		// log check
-		String name = (String)session.getAttribute("username");
+		String name = (String)session.getAttribute("name");
 		if(name == null)
 		{
 			return FAIL("Not Logged");
@@ -47,12 +47,12 @@ public class Mark
 		return ms.getMarks(resource_id, null, name, null, 10);
 	}
 
-	@RequestMapping(value = "/resources/{resource_id}/{timestamp}/marks", method = RequestMethod.GET)
+	@RequestMapping(value = "/resources/{resource_id}/marks/{timestamp}", method = RequestMethod.GET)
 	public Object getMarkByTimestamp(@PathVariable int resource_id, @PathVariable Timestamp timestamp,
 	                                 HttpSession session)
 	{
 		// log check
-		String name = (String)session.getAttribute("username");
+		String name = (String)session.getAttribute("name");
 		if(name == null)
 		{
 			return FAIL("Not Logged");
@@ -70,11 +70,11 @@ public class Mark
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value = "/resources/{resource_id}/marks/{mark_id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/resources/{resource_id}/marks/id/{mark_id}", method = RequestMethod.GET)
 	public Object getAMark(@PathVariable int resource_id, @PathVariable int mark_id, HttpSession session)
 	{
 		// log check
-		String name = (String)session.getAttribute("username");
+		String name = (String)session.getAttribute("name");
 		if(name == null)
 		{
 			return FAIL("Not Logged");
@@ -99,7 +99,7 @@ public class Mark
 	public RegMes createMark(@PathVariable int resource_id, @RequestBody MarkCreation markCreation, HttpSession session)
 	{
 		// log check
-		String name = (String)session.getAttribute("username");
+		String name = (String)session.getAttribute("name");
 		if(name == null)
 		{
 			return FAIL("Not Logged");
@@ -138,7 +138,7 @@ public class Mark
 	                               @RequestBody MarkCreation markCreation, HttpSession session)
 	{
 		// log check
-		String name = (String)session.getAttribute("username");
+		String name = (String)session.getAttribute("name");
 		if(name == null)
 		{
 			return FAIL("Not Logged");
@@ -176,7 +176,7 @@ public class Mark
 	public RegMes deleteMark(@PathVariable int resource_id, @PathVariable int mark_id, HttpSession session)
 	{
 		// logged required
-		String name = (String)session.getAttribute("username");
+		String name = (String)session.getAttribute("name");
 		if(name == null)
 		{
 			// give the not logged message
@@ -200,7 +200,7 @@ public class Mark
 	public RegMes resetToLoc(@PathVariable int resource_id, @PathVariable int location, HttpSession session)
 	{
 		//required logged
-		String name = (String)session.getAttribute("username");
+		String name = (String)session.getAttribute("name");
 		if(name == null)
 		{
 			// give the not logged message

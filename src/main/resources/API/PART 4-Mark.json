@@ -6,3 +6,80 @@ debugging precisely through this doc.
 
     Update
         - 2016/7/19 Doc Generation
+
+1.  Marks
+  Get the newest marks
+    url:        /resources/{resource_id}/marks
+    method:     GET
+    response:
+                [
+                    {
+                        "id":12,
+                        "item_id":235,
+                        "this_name":"name1",
+                        "content":"how do you feel about this?",
+                        "time":1228242156224,
+                        "mark_on_id":null
+                    }
+                    {
+                        ...
+                    }
+                ]
+    WARN:   Only up to 10 pieces
+
+  Get the nearest 10 marks through given timestamp
+    url:        /resources/{resource_id}/marks/{timestamp}
+    method:     GET
+    response:   
+                [
+                    {
+                        ...
+                    }
+                ]
+    
+  Get A Mark with given id
+    url:        /resources/{resource_id}/marks/id/{mark_id}
+    method:     Get
+    response:
+                {
+                    ...
+                }
+
+  Create A mark
+    url:        /resources/{resource_id}/marks
+    method:     POST
+    request:
+                {
+                    "content":"I feel really bad",
+                    "timestamp":1536984523666
+                }
+    response:
+                {
+                    "success":"731"
+                }
+    WARN:   The given number in response body is the id of the mark
+
+  Create A Mark On Mark
+    url:        /resources/{resource_id}/marks/{mark_id}
+    method:     POST
+    requests:
+                {
+                    "content":"happy guy~",
+                    "timestamp":123456789
+                }
+    response:
+                {
+                    "success":"4567"
+                }
+
+  Delete A Mark
+    url:        /resources/{resource_id}/marks/{mark_id}
+    method:     DELETE
+    response:
+                {
+                    "success":"hi!"
+                }
+
+
+
+  
