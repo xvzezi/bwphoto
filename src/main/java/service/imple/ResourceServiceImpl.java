@@ -11,6 +11,7 @@ import util.Log;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -91,7 +92,8 @@ public class ResourceServiceImpl implements ResourceService
 
         Item item = new Item();
         item.setUserName(name);
-
+        Date date = new Date();
+        item.setTime(new Timestamp(date.getTime()));
         dao.saveObject(item);
         return item;
     }

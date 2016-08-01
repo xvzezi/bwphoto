@@ -190,7 +190,7 @@ public class Resource
 	public RegMes deleteResource(@PathVariable int resource_id, HttpSession session)
 	{
 		// log checked
-		String name = (String)session.getAttribute("username");
+		String name = (String)session.getAttribute("name");
 		if(name == null)
 		{
 			return FAIL("Not Logged");
@@ -243,7 +243,7 @@ public class Resource
 	public Object getFriendRecentResource(HttpSession session)
 	{
 		// check the name
-		String name = (String)session.getAttribute("username");
+		String name = (String)session.getAttribute("name");
 		if(name == null)
 		{
 			return FAIL("Not Logged");
@@ -265,7 +265,7 @@ public class Resource
 	public Object getFriendResourceByTimeStamp(@PathVariable Timestamp timestamp, HttpSession session)
 	{
 		// check the name
-		String name = (String)session.getAttribute("username");
+		String name = (String)session.getAttribute("name");
 		if(name == null)
 		{
 			return FAIL("Not Logged");
@@ -285,7 +285,7 @@ public class Resource
 	public Object getSelfResource(HttpSession session)
 	{
 		// check the name
-		String name = (String)session.getAttribute("username");
+		String name = (String)session.getAttribute("name");
 		if(name == null)
 		{
 			return FAIL("Not Logged");
@@ -306,7 +306,7 @@ public class Resource
 	public Object getSelfResourceByTime(@PathVariable Timestamp timestamp, HttpSession session)
 	{
 		// check the name
-		String name = (String)session.getAttribute("username");
+		String name = (String)session.getAttribute("name");
 		if(name == null)
 		{
 			return FAIL("Not Logged");

@@ -99,20 +99,29 @@ public class UserLog {
 	 * @param session
 	 * @return detailed user info
 	 */
-	//TODO 不同的用户登录有不同的权限，可以获取不同的信息，好友、自己、陌生人
-	@RequestMapping(value = "/identity/detail", method = RequestMethod.GET)
+	@RequestMapping(value = "/identity/detail/{username}", method = RequestMethod.GET)
 	@ResponseBody
-	public User getDetail(HttpSession session)
+	public User getDetail(@PathVariable String username, HttpSession session)
 	{
-		String username = (String)session.getAttribute("name");
-		if(username == null)
-		{
-			Log.log.log("/identity/detail GET").log("user not found").log();
-			return new User();
-		}
+		String name = (String)session.getAttribute("name");
 		Log.log.log("/identity/detail GET").log("success").log("username:").log(username).log();
 		LogService doLog = SpringIoC.idGetter("logService", LogService.class);
-		return doLog.userDetail(username);
+		User detailT = doLog.userDetail(username);
+		detailT.setPwd(null);
+		detailT.setRole(null);
+		// process
+		if(username.equals(name))
+		{
+			return detailT;
+		}
+		else
+		{
+			User user = new User();
+			user.setName(detailT.getName());
+			user.setAge(detailT.getAge());
+			user.setContent(detailT.getContent());
+			return user;
+		}
 	}
 
 	/**

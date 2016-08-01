@@ -61,7 +61,7 @@ PART I: User Identity
                 }
 
 4.  User Detail
-    url:        /identity/detail
+    url:        /identity/detail/{username}
     method:     GET
     response:
                 {
@@ -73,7 +73,9 @@ PART I: User Identity
                 }
                 when not logged
                 {
-
+                    "name":"Sturmfy",
+                    "age":"20",
+                    "content":"A cute boy ready for love"
                 }
 
 5.  User Profile
