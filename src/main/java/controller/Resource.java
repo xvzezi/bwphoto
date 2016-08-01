@@ -27,6 +27,16 @@ import util.SpringIoC;
 import static model.RegMes.FAIL;
 import static model.RegMes.SUCCESS;
 
+/**
+ * Service Of Resources(Item)
+ * @author Xu Zezi
+ * @since 2016/7/1
+ * @version
+ *      0   basic impl.
+ *      1   tag added   2016/7/15
+ *      1.1 tag removed 2016/7/17
+ *      2   complex getting logical 2016/7/27
+ */
 @RestController
 public class Resource
 {

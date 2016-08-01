@@ -19,7 +19,12 @@ import static model.RegMes.FAIL;
 import static model.RegMes.SUCCESS;
 
 /**
- * Created by hasee on 2016/7/28.
+ * Service Of Marks On Items Or Marks
+ * @author Xu Zezi
+ * @since 2016/7/29
+ * @version
+ *      0   basic impl.
+ *      1   role control bug 2016/8/1
  */
 public class Mark
 {

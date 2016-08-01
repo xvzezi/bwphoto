@@ -14,7 +14,11 @@ import util.SpringIoC;
 import javax.servlet.http.HttpSession;
 
 /**
- * Created by hasee on 2016/7/11.
+ * Service Of Image Uploader
+ * @since 2016/7/11
+ * @author Xu Zezi
+ * @version
+ *      0   basic impl.
  */
 @Controller
 public class Uploader
