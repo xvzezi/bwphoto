@@ -1,16 +1,26 @@
 package util;
 
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Map;
+
 /**
- * Created by hasee on 2016/7/21.
+ * RestTemplate With Cookie
+ * @Author Li Yi
+ * @since 2016/7/21
+ * @version
+ *      0   basic GET and POST
+ *      0.5 Auth and cookie impl  2016/7/21
+ *      1   DELETE method         2016/8/2
  */
-public class RestUtil
-{
+public class RestUtil {
 	private static RestTemplate restTemplate = new RestTemplate();
 	private static HttpHeaders headers = new HttpHeaders();
 	public static RestTemplate getSession()
@@ -39,11 +49,41 @@ public class RestUtil
 
 	public static <T> T getForObject(String url, Class<T> clazz)
 	{
-		return (T)restTemplate.exchange(
+		ResponseEntity re = restTemplate.exchange(
 				url,
 				HttpMethod.GET,
 				new HttpEntity(headers),
 				clazz
+		);
+		return (T)re.getBody();
+	}
+
+	public static <T> T deleteForOject(String url, Class<T> clazz)
+	{
+		return restTemplate.exchange(
+				url,
+				HttpMethod.DELETE,
+				new HttpEntity(headers),
+				clazz
 		).getBody();
+	}
+
+	public static <T> T uploadFile(String url, FileSystemResource isr, String filename, Class<T> clazz)
+	{
+		MultiValueMap<String, Object> hd = new LinkedMultiValueMap<>();
+		hd.add("textFile", isr);
+		hd.add("fileName", filename);
+		HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity<>(hd, headers);
+		return (T)restTemplate.exchange(
+				url,
+				HttpMethod.POST,
+				httpEntity,
+				clazz
+		).getBody();
+	}
+
+	public static Map<String, String> getAuth()
+	{
+		return headers.toSingleValueMap();
 	}
 }
