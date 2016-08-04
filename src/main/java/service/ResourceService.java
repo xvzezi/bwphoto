@@ -94,4 +94,14 @@ public interface ResourceService
 	 *      查询他人的情况下——只能获取状态为public 的部分
 	 */
 	public List<Item> getPersonalResource(String tarname, String username, Timestamp timestamp, int amount);
+
+	/**
+	 * 更新一条resource的music hash
+	 * @param resource_id
+	 * @param music_hash
+	 * @param username
+	 * @return 成功信息
+	 *      先匹配resource的ownership信息，符合的情况下更改
+	 */
+	public String setMusicHash(int resource_id, String music_hash, String username);
 }

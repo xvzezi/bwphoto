@@ -204,4 +204,39 @@ public class ResourceServiceImpl implements ResourceService
             return dao.FindItemByUsername(tarname, timestamp, amount, false);
         }
     }
+
+    /**
+     * 更新一条resource的music hash
+     * @param resource_id
+     * @param music_hash
+     * @param username
+     * @return 成功信息
+     *      先匹配resource的ownership信息，符合的情况下更改
+     */
+    public String setMusicHash(int resource_id, String music_hash, String username)
+    {
+        if(username == null)
+        {
+            return "Require Valid User Name";
+        }
+        Item item = dao.FindItemById(resource_id);
+        if(item == null)
+        {
+            return "Invalid Resource Id";
+        }
+        if(!username.equals(item.getUserName()))
+        {
+            return "Require Proper Auth";
+        }
+        item.setMusicId(music_hash);
+        try
+        {
+            dao.updateItem(item);
+        }catch (Exception e)
+        {
+            Log.log.log("Error in setMusicHash: ").log(e.getMessage()).log();
+            return "Something is Wrong";
+        }
+        return "success";
+    }
 }

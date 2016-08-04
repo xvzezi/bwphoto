@@ -12,6 +12,7 @@ import util.SpringIoC;
 import javax.servlet.http.HttpSession;
 
 import static model.RegMes.FAIL;
+import static model.RegMes.SUCCESS;
 
 /**
  * Service of music and book
@@ -30,8 +31,15 @@ public class MusicAndBook
 
 		// the called service must check the ownership
 		ResourceService rs = SpringIoC.idGetter("resourceService", ResourceService.class);
-		//rs.
-		return FAIL("Not Implemented");
+		String mes = rs.setMusicHash(resource_id, music_hash, name);
+		if(mes.equals("success"))
+		{
+			return SUCCESS(music_hash);
+		}
+		else
+		{
+			return FAIL(mes);
+		}
 	}
 
 	@RequestMapping(value = "/resources/{resource_id}/book", method = RequestMethod.POST)
