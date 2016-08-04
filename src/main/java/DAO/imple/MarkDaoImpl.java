@@ -41,7 +41,8 @@ public class MarkDaoImpl implements MarkDao
 		Mark mark = new Mark();
 		mark.setContent(content);
 		mark.setItemId(item_id);
-		mark.setParent(target);
+		if(target != null)
+			mark.setParent(target);
 		mark.setThisname(username);
 		Date date = new Date();
 		mark.setTime(new Timestamp(date.getTime()));

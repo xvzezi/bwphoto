@@ -42,9 +42,23 @@ public class MusicAndBook
 		}
 	}
 
-	@RequestMapping(value = "/resources/{resource_id}/book", method = RequestMethod.POST)
-	public RegMes bookBasic(@PathVariable int resource_id, HttpSession session)
+	@RequestMapping(value = "/resources/{resource_id}/book/{isbn}", method = RequestMethod.POST)
+	public RegMes bookBasic(@PathVariable int resource_id, String isbn, HttpSession session)
 	{
+		// check log
+		String name = (String) session.getAttribute("name");
+		if(name == null)
+		{
+			return FAIL("Not Logged");
+		}
+		// check iSBN
+		if(!(isbn.length() == 13 || isbn.length() == 17))
+		{
+			return FAIL("Invalid ISBN");
+		}
+		// the called service should check the ownership
+		ResourceService rs = SpringIoC.idGetter("resourceService", ResourceService.class);
+		// rs.
 		return FAIL("Not Implemented");
 	}
 

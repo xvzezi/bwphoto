@@ -18,12 +18,6 @@
 			not-null="false" length="10"/>
 		<property name="userName" column="user_name" type="java.lang.String"
 			not-null="false" length="10"/>
-		<set name="markSet" lazy="true" inverse="true">
-            <key>
-                <column name="id" not-null="true" />
-            </key>
-            <one-to-many class="Mark" />
-        </set>
 		<property name="status" column="status" type="char"/>
 		<property name="time" column="time" type="java.sql.Timestamp"/>
 	</class>

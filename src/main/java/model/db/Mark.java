@@ -14,7 +14,7 @@ public class Mark
 	private int id;
 
 	@JsonProperty("nested")
-	private int parent;
+	private Integer parent;
 
 	@JsonProperty("item_id")
 	private Integer itemId;
@@ -60,12 +60,12 @@ public class Mark
 		this.time = time; 
 	}
 
-	public int getParent()
+	public Integer getParent()
 	{
 		return parent;
 	}
 
-	public void setParent(int parent)
+	public void setParent(Integer parent)
 	{
 		this.parent = parent;
 	}

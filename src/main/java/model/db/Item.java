@@ -25,9 +25,6 @@ public class Item{
 	
 	@JsonProperty("memory_id")
 	private Integer memoryId;
-	
-	@JsonIgnore
-	private Set markSet;
 
 	@JsonProperty("username")
 	private String userName;
@@ -69,14 +66,6 @@ public class Item{
 	}
 	public void setMemoryId(Integer memoryId) {
 		this.memoryId = memoryId;
-	}
-	
-	public Set getMarkSet(){
-		return markSet;
-	}
-	
-	public void setMarkSet(Set markSet){
-		this.markSet=markSet;
 	}
 	
 	public String getUserName(){
