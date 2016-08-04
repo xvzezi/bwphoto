@@ -3,10 +3,7 @@ package controller;
 import model.RegMes;
 import model.db.Item;
 import model.request.MarkCreation;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import service.MarkService;
 import service.ResourceService;
 import util.SpringIoC;
@@ -26,6 +23,7 @@ import static model.RegMes.SUCCESS;
  *      0   basic impl.
  *      1   role control bug 2016/8/1
  */
+@RestController
 public class Mark
 {
 	/************************************************资源的评论********************************************************/

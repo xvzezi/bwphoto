@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import service.ResourceService;
+import util.SpringIoC;
 
 import javax.servlet.http.HttpSession;
 
@@ -20,6 +22,15 @@ public class MusicAndBook
 	@RequestMapping(value = "/resources/{resource_id}/music/{music_hash}", method = RequestMethod.POST)
 	public RegMes MusicHash(@PathVariable int resource_id, @PathVariable String music_hash, HttpSession session)
 	{
+		String name = (String)session.getAttribute("name");
+		if(name == null)
+		{
+			return FAIL("Not Logged");
+		}
+
+		// the called service must check the ownership
+		ResourceService rs = SpringIoC.idGetter("resourceService", ResourceService.class);
+		//rs.
 		return FAIL("Not Implemented");
 	}
 
