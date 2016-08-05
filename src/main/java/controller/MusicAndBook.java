@@ -56,10 +56,17 @@ public class MusicAndBook
 		{
 			return FAIL("Invalid ISBN");
 		}
-		// the called service should check the ownership
+		// the called service should check the
 		ResourceService rs = SpringIoC.idGetter("resourceService", ResourceService.class);
-		// rs.
-		return FAIL("Not Implemented");
+		String mes = rs.setMusicHash(resource_id, isbn, name);
+		if(mes.equals("success"))
+		{
+			return SUCCESS(isbn);
+		}
+		else
+		{
+			return FAIL(mes);
+		}
 	}
 
 	@RequestMapping(value = "/books/{book_id}", method = RequestMethod.GET)

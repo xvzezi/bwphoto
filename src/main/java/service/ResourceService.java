@@ -17,6 +17,7 @@ import java.util.List;
  *      1.1 auth improved                 2016/7/19
  *      1.2 auth change function          2016/7/19
  *      2.0 auth control and resource added 2016/7/28
+ *      2.5 music and book added            2016/8/1
  */
 public interface ResourceService
 {
@@ -104,4 +105,14 @@ public interface ResourceService
 	 *      先匹配resource的ownership信息，符合的情况下更改
 	 */
 	public String setMusicHash(int resource_id, String music_hash, String username);
+
+	/**
+	 * 更新一条resource的book isbn
+	 * @param resource_id
+	 * @param ISBN
+	 * @param username
+	 * @return 成功信息
+	 *      先匹配resource的ownership信息，符合的情况下更改
+	 */
+	public String setBookISBN(int resource_id, String ISBN, String username);
 }

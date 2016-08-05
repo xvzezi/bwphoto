@@ -23,6 +23,7 @@ import java.util.List;
  *      0   实现基本的资源获取服务，检查人与资源的一致性
  *      1   根据timestamp获取资源     2016/7/19
  *      1.1
+ *      2.5 增加msuic与book部分      2016/8/1
  * @since 2016/7/5
  * @Description
  *   获取资源，同时管理数据权限
@@ -229,6 +230,41 @@ public class ResourceServiceImpl implements ResourceService
             return "Require Proper Auth";
         }
         item.setMusicId(music_hash);
+        try
+        {
+            dao.updateItem(item);
+        }catch (Exception e)
+        {
+            Log.log.log("Error in setMusicHash: ").log(e.getMessage()).log();
+            return "Something is Wrong";
+        }
+        return "success";
+    }
+
+    /**
+     * 更新一条resource的book isbn
+     * @param resource_id
+     * @param ISBN
+     * @param username
+     * @return 成功信息
+     *      先匹配resource的ownership信息，符合的情况下更改
+     */
+    public String setBookISBN(int resource_id, String ISBN, String username)
+    {
+        if(username == null)
+        {
+            return "Require Valid User Name";
+        }
+        Item item = dao.FindItemById(resource_id);
+        if(item == null)
+        {
+            return "Invalid Resource Id";
+        }
+        if(!username.equals(item.getUserName()))
+        {
+            return "Require Proper Auth";
+        }
+        item.setIsbn(ISBN);
         try
         {
             dao.updateItem(item);

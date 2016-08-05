@@ -21,3 +21,19 @@ debugging precisely through this doc.
                 {
                     "fail":"Not Logged"
                 }
+
+2. Book
+  Basic Add A ISBN To The Resource
+    url:        /resources/{resource_id}/book/{ISBN}
+    method:     POST
+    request:
+                PARAM:  resource_id int
+                PARAM:  ISBN        String
+    response
+                {
+                    "success":"978-123-7-1234-1234"
+                }
+                {
+                    "fail":"Invalid ISBN Format"
+                }
+    WARN: Server Just Check the Length Of the ISBN
