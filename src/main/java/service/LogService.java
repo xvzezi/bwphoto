@@ -17,7 +17,7 @@ import model.db.User;
  */
 public interface LogService {
 	/**
-	 * 
+	 * 登录
 	 * @param user
 	 * @param session
 	 * @return success

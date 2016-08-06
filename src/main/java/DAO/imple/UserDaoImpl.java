@@ -14,11 +14,13 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 
-
+/**
+ * @author Zhou TQ
+ */
 public class UserDaoImpl implements UserDao{
 	/**
 	 * 验证用户
-	 * @param SimpleUser user
+	 * @param user
 	 * @return User
 	 */
 	 public User UserValid(SimpleUser user){
@@ -131,7 +133,7 @@ public class UserDaoImpl implements UserDao{
 
 	/**
 	 * 删除用户
-	 * @param null
+	 * @param user
 	 * @return void
 	 */
 	@Override

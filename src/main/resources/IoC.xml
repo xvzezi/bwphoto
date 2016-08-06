@@ -17,8 +17,11 @@
 
 	<!-- 资源服务 -->
 	<bean id="itemDao" class="DAO.imple.ItemDaoImpl"/>
+	<bean id="friendDao" class="DAO.imple.FriendDaoImpl"/>
 	<bean id="resourceService" class="service.imple.ResourceServiceImpl">
 		<property name="dao" ref="itemDao"/>
+		<property name="friendDao" ref="friendDao"/>
+		<property name="userDao" ref="userDao"/>
 	</bean>
 
 	<!-- 头像服务 -->
@@ -49,7 +52,6 @@
 
 	<!-- Friend Request 朋友请求服务 -->
 	<bean id="friendRequestDao" class="DAO.imple.FriendRequestDaoImpl"/>
-	<bean id="friendDao" class="DAO.imple.FriendDaoImpl"/>
 	<bean id="friendService" class="service.imple.FriendServiceImpl">
 		<property name="frDao" ref="friendRequestDao"/>
 		<property name="fDao" ref="friendDao"/>

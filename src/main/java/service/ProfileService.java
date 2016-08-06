@@ -3,7 +3,11 @@ import java.io.File;
 import java.io.InputStream;
 
 /**
- * Created by hasee on 2016/7/7.
+ * Service of Profile
+ * @author Xu Zezi
+ * @since 2016/7/7.
+ * @version
+ *      0   profile独立业务
  */
 public interface ProfileService
 {

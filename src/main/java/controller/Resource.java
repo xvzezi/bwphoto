@@ -326,4 +326,27 @@ public class Resource
 		ResourceService rs = SpringIoC.idGetter("resourceService", ResourceService.class);
 		return rs.getPersonalResource(name, name, timestamp, 10);
 	}
+
+	/****************************************************resource type*************************************************/
+	@RequestMapping(value = "/resources/{resource_id}/{mood_id}", method = RequestMethod.PUT)
+	public Object setResourceMood(@PathVariable int resource_id, @PathVariable int mood_id, HttpSession session)
+	{
+		// check the name
+		String name = (String)session.getAttribute("name");
+		if(name == null)
+		{
+			return FAIL("Not Logged");
+		}
+
+		// check the value
+		if(mood_id < 0 || mood_id > 5)
+		{
+			return FAIL("Unsupported Mood Id");
+		}
+
+		// check the auth, do it right
+		ResourceService rs = SpringIoC.idGetter("resourceService", ResourceService.class);
+		//rs. ...
+		return FAIL("Not Implemented");
+	}
 }

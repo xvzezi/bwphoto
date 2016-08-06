@@ -3,7 +3,11 @@ package service;
 import model.db.Image;
 
 /**
- * Created by hasee on 2016/7/11.
+ * Service of Image
+ * @sincec 2016/7/11.
+ * @author Xu Zezi
+ * @version
+ *      0   Basic Impl.
  */
 public interface ImageService
 {

@@ -42,6 +42,7 @@
         <mapping resource="model/db/Music.hbm.xml"/>
         <mapping resource="model/db/Tag.hbm.xml"/>
         <mapping resource="model/db/FriendRequest.hbm.xml"/>
+        <mapping resource="model/db/RecData.hbm.xml"/>
 
     </session-factory>
 

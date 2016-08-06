@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="model.db">
+    <class name="model.db.RecData" table="recdata">
+        <id name="name" type="java.lang.String">
+            <generator class="assigned"></generator>
+        </id>
+        <property name="emotion" type="java.lang.Integer"/>
+        <property name="type" type="java.lang.Integer"/>
+        <property name="f_emotion" type="java.lang.Integer"/>
+        <property name="f_type" type="java.lang.Integer"/>
+        <property name="checktime" type="java.sql.Timestamp"/>
+    </class>
+</hibernate-mapping>

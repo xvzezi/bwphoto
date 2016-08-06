@@ -24,6 +24,7 @@ public class RegisterServiceImpl implements RegisterService {
 			session.setAttribute("email",user.getEmail() );
 			session.setAttribute("age",user.getAge());
 			user.setTime(new Timestamp(new Date().getTime()));
+			user.setAmount(0);
 			dao.saveObject(user);
 
 	        return "SUCCESS";

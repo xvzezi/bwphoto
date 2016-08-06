@@ -22,6 +22,7 @@
 			not-null="true"  />
 		<property name="content" column="content" type="java.lang.String"
 				  not-null="false"  />
+		<property name="amount" column="amount" type="java.lang.Integer"/>
 		<!--  
 		<set name="friendSet" lazy="true" inverse="true">
             <key>

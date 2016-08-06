@@ -9,6 +9,10 @@ import javax.servlet.http.HttpSession;
 import model.db.User;
 
 
+/**
+ * Service of User
+ * @author Zhou TQ
+ */
 public interface UserService {
     public List<User> getAdmin();
 	public List<User> getGeneral();

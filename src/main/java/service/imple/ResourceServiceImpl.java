@@ -2,6 +2,7 @@ package service.imple;
 
 import DAO.FriendDao;
 import DAO.ItemDao;
+import DAO.UserDao;
 import controller.Friend;
 import model.BasicInfo;
 import model.db.Item;
@@ -24,6 +25,7 @@ import java.util.List;
  *      1   根据timestamp获取资源     2016/7/19
  *      1.1
  *      2.5 增加msuic与book部分      2016/8/1
+ *      2.6 user增加数量信息，例行更改 2016/8/2
  * @since 2016/7/5
  * @Description
  *   获取资源，同时管理数据权限
@@ -37,6 +39,8 @@ public class ResourceServiceImpl implements ResourceService
     }
     private FriendDao friendDao;
     public void setFriendDao(FriendDao friendDao) { this.friendDao = friendDao; }
+    private UserDao userDao;
+    public void setUserDao(UserDao userDao) { this.userDao = userDao; }
 
     /**
      * 获取资源，如果有id，则获取某个资源
@@ -90,12 +94,20 @@ public class ResourceServiceImpl implements ResourceService
     @Override
     public Item createResource(String name, BasicInfo bi)
     {
-
+        // create new one
         Item item = new Item();
         item.setUserName(name);
         Date date = new Date();
         item.setTime(new Timestamp(date.getTime()));
         dao.saveObject(item);
+
+        // when nothing's wrong
+        // add one to the people's account
+        User user = userDao.FindUserByName(name);
+        user.setAmount(user.getAmount() + 1);
+        userDao.updateUser(user);
+
+        // finished
         return item;
     }
 
@@ -108,6 +120,13 @@ public class ResourceServiceImpl implements ResourceService
             return false;
         }
         dao.deleteItem(item);
+
+        // when nothing's wrong
+        // add one to the people's account
+        User user = userDao.FindUserByName(name);
+        user.setAmount(user.getAmount() + 1);
+        userDao.updateUser(user);
+
         return true;
     }
 
