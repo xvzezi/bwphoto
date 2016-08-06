@@ -1,15 +1,16 @@
 package controller;
 
 import model.RegMes;
+import model.db.Book;
+import model.request.BookCreation;
 import org.jboss.logging.annotations.Param;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import service.BookService;
 import service.ResourceService;
 import util.SpringIoC;
 
 import javax.servlet.http.HttpSession;
+import javax.swing.*;
 
 import static model.RegMes.FAIL;
 import static model.RegMes.SUCCESS;
@@ -75,9 +76,25 @@ public class MusicAndBook
 		return FAIL("Not Implemented");
 	}
 
-	@RequestMapping(value = "/books/{book_id}", method = RequestMethod.POST)
-	public Object changeABook(@PathVariable int book_id, HttpSession session)
+	@RequestMapping(value = "/books/{ISBN}", method = RequestMethod.POST)
+	public Object changeABook(@PathVariable String ISBN, @RequestBody BookCreation bookCreation, HttpSession session)
 	{
-		return FAIL("Not Implemented");
+		// check log
+		String name = (String)session.getAttribute("name");
+		if(name == null)
+		{
+			return FAIL("Not Logged");
+		}
+
+		BookService bs = SpringIoC.idGetter("bookService", BookService.class);
+		String result = bs.updateIsbnUrl(ISBN, bookCreation.getUrl());
+		if("success".equals(result))
+		{
+			return SUCCESS("success");
+		}
+		else
+		{
+			return FAIL(result);
+		}
 	}
 }

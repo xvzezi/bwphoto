@@ -36,9 +36,11 @@
 
 	<!-- image 下载服务-->
 	<bean id="imageDao" class="DAO.imple.ImageDaoImpl"/>
+	<bean id="bookDao" class="DAO.imple.BookDaoImpl"/>
 	<bean id="imageService" class="service.imple.ImageServiceImpl">
 		<property name="itemDao" ref="itemDao"/>
 		<property name="imageDao" ref="imageDao"/>
+		<property name="bookDao" ref="bookDao"/>
 	</bean>
 
 	<!-- Tag: Resource服务的一部分-->

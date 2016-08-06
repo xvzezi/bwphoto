@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 import service.ImageService;
 import util.Log;
 import util.SpringIoC;
@@ -34,7 +35,7 @@ public class Image
 	 * @return
 	 */
 	@RequestMapping(value = "/resources/{resource_id}/image", method = RequestMethod.GET)
-	public ResponseEntity<InputStreamResource> getImg(@PathVariable int resource_id, HttpSession session)
+	public Object getImg(@PathVariable int resource_id, HttpSession session)
 	{
 		//check session
 		String name = (String)session.getAttribute("name");
@@ -49,6 +50,12 @@ public class Image
 		InputStream is = null;
 		if(image == null)
 		{
+			// try if it is a book resource
+			String url = imgService.getBookUrl(resource_id);
+			if(url != null)// then redirect to the target resource
+			{
+				return new ModelAndView("redirect:"+url);
+			}//failed
 			//cannot get the pic get the default png
 			ClassPathResource cpr = new ClassPathResource("/default/none.jpg");
 			try{

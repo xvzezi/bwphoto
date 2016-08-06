@@ -1,7 +1,9 @@
 package service.imple;
 
+import DAO.BookDao;
 import DAO.ImageDao;
 import DAO.ItemDao;
+import model.db.Book;
 import model.db.Image;
 import model.db.Item;
 import service.ImageService;
@@ -15,6 +17,7 @@ public class ImageServiceImpl implements ImageService
 	//auto wired
 	ItemDao itemDao;
 	ImageDao imageDao;
+	BookDao bookDao;
 	@Override
 	public byte[] getImgDetailByItem(int item_id)
 	{
@@ -53,6 +56,26 @@ public class ImageServiceImpl implements ImageService
 		return true;
 	}
 
+
+	/**
+	 * 检查是否有isbn号，如果有返回对应连接
+	 * @param item_id
+	 */
+	public String getBookUrl(int item_id)
+	{
+		Item item = itemDao.FindItemById(item_id);
+		if(item == null || item.getIsbn() == null)
+		{
+			return null;
+		}
+		Book book = bookDao.FindBookByISBN(item.getIsbn());
+		if(book == null || book.getIntro() == null)
+		{
+			return null;
+		}
+		return book.getIntro();
+	}
+
 	public ItemDao getItemDao()
 	{
 		return itemDao;
@@ -72,4 +95,6 @@ public class ImageServiceImpl implements ImageService
 	{
 		this.imageDao = imageDao;
 	}
+
+	public void setBookDao(BookDao bookDao) { this.bookDao = bookDao; }
 }

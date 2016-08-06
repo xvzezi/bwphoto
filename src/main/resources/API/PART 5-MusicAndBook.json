@@ -37,3 +37,17 @@ debugging precisely through this doc.
                     "fail":"Invalid ISBN Format"
                 }
     WARN: Server Just Check the Length Of the ISBN
+
+  Add A Url Linked To This Book Without Security Check
+    url:        /books/{ISBN}
+    method:     POST
+    request:    
+                PARAM:  ISBN    String
+                BODY:
+                {
+                    "url":"http://sdk.qq.com/1.jpg"
+                }
+    response:
+                {
+                    "fail":"wrong"
+                }
