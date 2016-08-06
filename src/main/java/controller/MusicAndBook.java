@@ -43,7 +43,7 @@ public class MusicAndBook
 	}
 
 	@RequestMapping(value = "/resources/{resource_id}/book/{isbn}", method = RequestMethod.POST)
-	public RegMes bookBasic(@PathVariable int resource_id, String isbn, HttpSession session)
+	public RegMes bookBasic(@PathVariable int resource_id, @PathVariable String isbn, HttpSession session)
 	{
 		// check log
 		String name = (String) session.getAttribute("name");

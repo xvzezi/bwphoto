@@ -35,6 +35,9 @@ public class Item{
 	@JsonProperty
 	private Timestamp time;
 
+	@JsonProperty
+	private Integer emotion;
+
 	public Integer getId() {
 		return id;
 	}
@@ -95,6 +98,10 @@ public class Item{
 	{
 		this.time = time;
 	}
+
+	public Integer getEmotion() { return this.emotion; }
+
+	public void setEmotion(Integer emotion) { this.emotion = emotion; }
 }
 
 

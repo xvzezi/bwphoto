@@ -27,6 +27,9 @@ public class User {
 	
 	@JsonProperty("time")
 	private Timestamp time;
+
+	@JsonProperty
+	private Integer amount;
 	
 	
 	public Date getBirth() {
@@ -93,6 +96,15 @@ public class User {
 	public void setTime(Timestamp time) {
 		this.time = time;
 	}
-	
+
+	public Integer getAmount()
+	{
+		return amount;
+	}
+
+	public void setAmount(Integer amount)
+	{
+		this.amount = amount;
+	}
 }
 
