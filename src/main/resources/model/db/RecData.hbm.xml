@@ -8,10 +8,10 @@
         <id name="name" type="java.lang.String">
             <generator class="assigned"></generator>
         </id>
-        <property name="emotion" type="java.lang.Integer"/>
-        <property name="type" type="java.lang.Integer"/>
-        <property name="f_emotion" type="java.lang.Integer"/>
-        <property name="f_type" type="java.lang.Integer"/>
+        <property name="emotion" type="double" scale="1"/>
+        <property name="type" type="double" scale="1"/>
+        <property name="f_emotion" type="double" scale="1"/>
+        <property name="f_type" type="double" scale="1"/>
         <property name="checktime" type="java.sql.Timestamp"/>
     </class>
 </hibernate-mapping>

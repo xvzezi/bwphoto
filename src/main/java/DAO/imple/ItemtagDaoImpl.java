@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import model.db.Itemtag;
 import DAO.ItemtagDao;
 import util.HibernateUtil;
+import util.Log;
 
 /**
  * ItemtagDaoImpl
@@ -16,6 +17,7 @@ import util.HibernateUtil;
  * 		0 ItemtagDaoImpl with find
  * 	    1 add find by item id           2016/7/12
  * 	    2 add create an association     2016/7/12
+ * 	    2.8 transaction management      2016/8/7
  * @since 2016/7/5
  * @Description
  *   first version
@@ -31,18 +33,27 @@ public class ItemtagDaoImpl implements ItemtagDao{
 	public List<Itemtag> FindItemByTag(String tagName)
 	{
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		String hql = "from Itemtag as itemtag where itemtag.tagName=? ";  
-		Query query=session.createQuery(hql);
-		query.setString(0, tagName);
-		List itemtagList = query.list();  
-		session.getTransaction().commit();
-		if (itemtagList != null && itemtagList.size() >= 1) 
+		try
 		{
-			return (List<Itemtag>) itemtagList;
-		} else 
+			session.beginTransaction();
+			String hql = "from Itemtag as itemtag where itemtag.tagName=? ";
+			Query query = session.createQuery(hql);
+			query.setString(0, tagName);
+			List itemtagList = query.list();
+			if (itemtagList != null && itemtagList.size() >= 1)
+			{
+				return (List<Itemtag>) itemtagList;
+			} else
+			{
+				return null;
+			}
+		}catch (Exception e)
 		{
+			Log.log.log("Error In ItemTagDAO findByTag:").log(e.getMessage()).log();
 			return null;
+		}finally
+		{
+			session.getTransaction().commit();
 		}
 	}
 
@@ -54,18 +65,27 @@ public class ItemtagDaoImpl implements ItemtagDao{
 	public List<Itemtag> FindItemById(int item_id)
 	{
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		String hql = "from Itemtag where itemId=?";
-		Query query=session.createQuery(hql);
-		query.setInteger(0, item_id);
-		List itemtagList = query.list();
-		session.getTransaction().commit();
-		if (itemtagList != null && itemtagList.size() >= 1)
+		try
 		{
-			return (List<Itemtag>) itemtagList;
-		} else
+			session.beginTransaction();
+			String hql = "from Itemtag where itemId=?";
+			Query query = session.createQuery(hql);
+			query.setInteger(0, item_id);
+			List itemtagList = query.list();
+			if (itemtagList != null && itemtagList.size() >= 1)
+			{
+				return (List<Itemtag>) itemtagList;
+			} else
+			{
+				return null;
+			}
+		}catch (Exception e)
 		{
+			Log.log.log("Error In ItemTagDAO findById:").log(e.getMessage()).log();
 			return null;
+		}finally
+		{
+			session.getTransaction().commit();
 		}
 	}
 
@@ -86,10 +106,12 @@ public class ItemtagDaoImpl implements ItemtagDao{
 			it.setItemId(item_id);
 			it.setTagName(tagname);
 			session.save(it);
-			session.getTransaction().commit();
 		}catch (Exception e)
 		{
 			return false;
+		}finally
+		{
+			session.getTransaction().commit();
 		}
 		return true;
 	}

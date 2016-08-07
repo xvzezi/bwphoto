@@ -11,6 +11,7 @@ import util.HibernateUtil;
 
 /**
  * MusicDaoImpl
+ * @Deprecated
  * @author ZhouTQ
  * @category DAO.imple
  * @version

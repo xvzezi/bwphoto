@@ -9,13 +9,15 @@ import util.HibernateUtil;
 
 import DAO.FriendDao;
 import model.db.Friend;
+import util.Log;
 
 /**
  * FriendDaoImpl
  * @author ZhouTQ
  * @category DAO.imple
  * @version
- * 		0 FriendDaoImpl with Create,Retrieve,Delete
+ * 		0   FriendDaoImpl with Create,Retrieve,Delete
+ * 	    0.8 transaction management
  * @since 2016/7/5
  * @Description
  *   first version
@@ -33,10 +35,18 @@ public class FriendDaoImpl implements FriendDao
 	public void addFriend(String myName,String frName)
 	{
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		Friend friend=new Friend(myName,frName);
-		session.save(friend);
-		session.getTransaction().commit();
+		try
+		{
+			session.beginTransaction();
+			Friend friend = new Friend(myName, frName);
+			session.save(friend);
+		}catch (Exception e)
+		{
+			Log.log.log("Error In FriendDAO add:").log(e.getMessage()).log();
+		}finally
+		{
+			session.getTransaction().commit();
+		}
 	};
     
 	/**
@@ -47,19 +57,27 @@ public class FriendDaoImpl implements FriendDao
 	public List<Friend> FindFriend(String myName)
 	{
 	    Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		String hql = "from Friend as friend where friend.myName=? ";  
-		Query query=session.createQuery(hql);
-		query.setString(0, myName);
-		List friendList = query.list();
-		session.getTransaction().commit();
-		if (friendList != null && friendList.size() >= 1) 
+		try
 		{
-			return (List<Friend>) friendList;
-		}
-		else 
+			session.beginTransaction();
+			String hql = "from Friend as friend where friend.myName=? ";
+			Query query = session.createQuery(hql);
+			query.setString(0, myName);
+			List friendList = query.list();
+			if (friendList != null && friendList.size() >= 1)
+			{
+				return (List<Friend>) friendList;
+			} else
+			{
+				return null;
+			}
+		}catch (Exception e)
 		{
+			Log.log.log("Error In FriendDAO find:").log(e.getMessage()).log();
 			return null;
+		}finally
+		{
+			session.getTransaction().commit();
 		}
 	};
 	
@@ -73,18 +91,25 @@ public class FriendDaoImpl implements FriendDao
 	public void deleteFriend(String myName,String frName)
 	{
 	    Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		String hql = "from Friend as friend where friend.myName=? and friend.frName=? ";  
-		Query query=session.createQuery(hql);
-		query.setString(0, myName).setString(1, frName);
-		List friendList = query.list(); 
-
-		if (friendList != null && friendList.size() >= 1) 
+		try
 		{
-			session.delete(friendList.get(0));	
-		}
+			session.beginTransaction();
+			String hql = "from Friend as friend where friend.myName=? and friend.frName=? ";
+			Query query = session.createQuery(hql);
+			query.setString(0, myName).setString(1, frName);
+			List friendList = query.list();
 
-		session.getTransaction().commit();
+			if (friendList != null && friendList.size() >= 1)
+			{
+				session.delete(friendList.get(0));
+			}
+		}catch (Exception e)
+		{
+			Log.log.log("Error In FriendDAO deletion:").log(e.getMessage()).log();
+		}finally
+		{
+			session.getTransaction().commit();
+		}
 	};
 
 
@@ -97,12 +122,21 @@ public class FriendDaoImpl implements FriendDao
 	public List<String> findFriendRetNames(String name)
 	{
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		String hql = "select frName from Friend where myName=?";
-		Query query = session.createQuery(hql).setString(0, name);
-		List<String> names = query.list();
-		session.getTransaction().commit();
-		return names;
+		try
+		{
+			session.beginTransaction();
+			String hql = "select frName from Friend where myName=?";
+			Query query = session.createQuery(hql).setString(0, name);
+			List<String> names = query.list();
+			return names;
+		}catch (Exception e)
+		{
+			Log.log.log("Error In FriendDAO findReturnNames:").log(e.getMessage()).log();
+			return null;
+		}finally
+		{
+			session.getTransaction().commit();
+		}
 	}
 
 }

@@ -19,6 +19,7 @@ import util.Log;
  * @category DAO.imple
  * @version
  * 		0 MarkDaoImpl with CRUD
+ * 	    0.8 transaction management
  * @since 2016/7/5
  * @Description
  *   first version
@@ -49,18 +50,20 @@ public class MarkDaoImpl implements MarkDao
 
 		// do the storage things
 		// the constraints is auto kept by the database
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try
 		{
-			Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 			session.beginTransaction();
 			session.save(mark);
-			session.getTransaction().commit();
 			return mark.getId();
 		}
 		catch (Exception e)
 		{
 			Log.log.log("Error In MarkDao SaveObject:").log(e.getMessage()).log();
 			return -1;
+		}finally
+		{
+			session.getTransaction().commit();
 		}
 	}
 
@@ -73,21 +76,37 @@ public class MarkDaoImpl implements MarkDao
 	public void deleteMark(Integer item_id)
 	{
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		Query query = session.createQuery("delete from Mark where itemId=?").setInteger(0, item_id);
-		query.executeUpdate();
-		session.getTransaction().commit();
+		try
+		{
+			session.beginTransaction();
+			Query query = session.createQuery("delete from Mark where itemId=?").setInteger(0, item_id);
+			query.executeUpdate();
+		}catch (Exception e)
+		{
+			Log.log.log("Error In MarkDAO deletion:").log(e.getMessage()).log();
+		}finally
+		{
+			session.getTransaction().commit();
+		}
 	}
 
 	@Override
 	public void deleteMark(Integer id, String username)
 	{
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		Query query = session.createQuery("delete from Mark where id=? and thisname=?")
-				.setInteger(0, id).setString(1, username);
-		query.executeUpdate();
-		session.getTransaction().commit();
+		try
+		{
+			session.beginTransaction();
+			Query query = session.createQuery("delete from Mark where id=? and thisname=?")
+					.setInteger(0, id).setString(1, username);
+			query.executeUpdate();
+		}catch (Exception e)
+		{
+			Log.log.log("Error In MarkDAO deletion:").log(e.getMessage()).log();
+		}finally
+		{
+			session.getTransaction().commit();
+		}
 	}
 
 	/**
@@ -100,23 +119,41 @@ public class MarkDaoImpl implements MarkDao
 	public Mark FindMarkById(Integer id)
 	{
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		Query query = session.createQuery("from Mark where id=?").setInteger(0, id);
-		Mark mark = (Mark)query.uniqueResult();
-		session.getTransaction().commit();
-		return mark;
+		try
+		{
+			session.beginTransaction();
+			Query query = session.createQuery("from Mark where id=?").setInteger(0, id);
+			Mark mark = (Mark) query.uniqueResult();
+			return mark;
+		}catch (Exception e)
+		{
+			Log.log.log("Error In MarkDAO findById").log(e.getMessage()).log();
+			return null;
+		}finally
+		{
+			session.getTransaction().commit();
+		}
 	}
 
 	@Override
 	public List<Mark> FindMarkByItemId(Integer item_id, Timestamp timestamp, Integer limit)
 	{
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		Query query = session.createQuery("from Mark where itemId=? and time < ? order by time")
-				.setInteger(0, item_id).setTimestamp(1, new Date(timestamp.getTime()))
-				.setFetchSize(limit);
-		List<Mark> marks = (List<Mark>)query.list();
-		session.getTransaction().commit();
-		return marks;
+		try
+		{
+			session.beginTransaction();
+			Query query = session.createQuery("from Mark where itemId=? and time < ? order by time")
+					.setInteger(0, item_id).setTimestamp(1, new Date(timestamp.getTime()))
+					.setFetchSize(limit);
+			List<Mark> marks = (List<Mark>) query.list();
+			return marks;
+		}catch (Exception e)
+		{
+			Log.log.log("Error In MarkDAO findByItemId:").log(e.getMessage()).log();
+			return null;
+		}finally
+		{
+			session.getTransaction().commit();
+		}
 	}
 }

@@ -21,16 +21,16 @@ public class RecData
 	private String name;
 
 	@JsonProperty
-	private Integer emotion;
+	private double emotion;
 
 	@JsonProperty
-	private Integer type;
+	private double type;
 
 	@JsonProperty("friend_emotion")
-	private Integer f_emotion;
+	private double f_emotion;
 
 	@JsonProperty("friend_type")
-	private Integer f_type;
+	private double f_type;
 
 	@JsonProperty
 	private Timestamp checktime;
@@ -45,42 +45,42 @@ public class RecData
 		this.name = name;
 	}
 
-	public Integer getEmotion()
+	public double getEmotion()
 	{
 		return emotion;
 	}
 
-	public void setEmotion(Integer emotion)
+	public void setEmotion(double emotion)
 	{
 		this.emotion = emotion;
 	}
 
-	public Integer getType()
+	public double getType()
 	{
 		return type;
 	}
 
-	public void setType(Integer type)
+	public void setType(double type)
 	{
 		this.type = type;
 	}
 
-	public Integer getF_emotion()
+	public double getF_emotion()
 	{
 		return f_emotion;
 	}
 
-	public void setF_emotion(Integer f_emotion)
+	public void setF_emotion(double f_emotion)
 	{
 		this.f_emotion = f_emotion;
 	}
 
-	public Integer getF_type()
+	public double getF_type()
 	{
 		return f_type;
 	}
 
-	public void setF_type(Integer f_type)
+	public void setF_type(double f_type)
 	{
 		this.f_type = f_type;
 	}

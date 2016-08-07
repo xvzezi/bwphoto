@@ -9,6 +9,7 @@ import DAO.TagDao;
 import model.db.Friend;
 import model.db.Tag;
 import util.HibernateUtil;
+import util.Log;
 
 
 /**
@@ -17,6 +18,7 @@ import util.HibernateUtil;
  * @category DAO.imple
  * @version
  * 		0 TagDaoImpl with CRUD
+ * 	    0.8 transaction management
  * @since 2016/7/5
  * @Description
  *   first version
@@ -26,25 +28,33 @@ public class TagDaoImpl implements TagDao {
     
 	/**
 	 * 根据tag的name查找tag
-	 * @param tag
+	 * @param name
 	 * @return List<Tag>
 	 */
 	public List<Tag> FindTagByName(String name)
 	{
 	    Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		String hql = "from Tag as tag where tag.name=? ";  
-		Query query=session.createQuery(hql);
-		query.setString(0, name);
-		List tagList = query.list();
-		session.getTransaction().commit();
-		if (tagList != null && tagList.size() >= 1) 
+		try
 		{
-			return (List<Tag>) tagList;
-		}
-		else 
+			session.beginTransaction();
+			String hql = "from Tag as tag where tag.name=? ";
+			Query query = session.createQuery(hql);
+			query.setString(0, name);
+			List tagList = query.list();
+			if (tagList != null && tagList.size() >= 1)
+			{
+				return (List<Tag>) tagList;
+			} else
+			{
+				return null;
+			}
+		}catch (Exception e)
 		{
+			Log.log.log("Error In TagDAO findByName:").log(e.getMessage()).log();
 			return null;
+		}finally
+		{
+			session.getTransaction().commit();
 		}
 	}
     
@@ -56,9 +66,17 @@ public class TagDaoImpl implements TagDao {
 	public void updateTag(Tag tag)
 	{
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		session.update(tag);
-		session.getTransaction().commit();
+		try
+		{
+			session.beginTransaction();
+			session.update(tag);
+		}catch (Exception e)
+		{
+			Log.log.log("Error In TagDAO update:").log(e.getMessage()).log();
+		}finally
+		{
+			session.getTransaction().commit();
+		}
 	}
 
 	/**
@@ -69,9 +87,17 @@ public class TagDaoImpl implements TagDao {
 	public void deleteTag(Tag tag)
 	{
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		session.delete(tag);
-		session.getTransaction().commit();
+		try
+		{
+			session.beginTransaction();
+			session.delete(tag);
+		}catch (Exception e)
+		{
+			Log.log.log("Error In TagDAO deletion:").log(e.getMessage()).log();
+		}finally
+		{
+			session.getTransaction().commit();
+		}
 		
 	}
 
@@ -83,9 +109,17 @@ public class TagDaoImpl implements TagDao {
 	public void addTag(Tag tag)
 	{
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		session.save(tag);
-		session.getTransaction().commit();
+		try
+		{
+			session.beginTransaction();
+			session.save(tag);
+		}catch (Exception e)
+		{
+			Log.log.log("Error In TagDAO add:").log(e.getMessage()).log();
+		}finally
+		{
+			session.getTransaction().commit();
+		}
 		
 	}
 

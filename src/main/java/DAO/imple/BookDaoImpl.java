@@ -8,13 +8,15 @@ import org.hibernate.Session;
 import DAO.BookDao;
 import model.db.Book;
 import util.HibernateUtil;
+import util.Log;
 
 /**
  * BookDaoImpl
  * @author ZhouTQ
- * @category DAO.imple
+ * @category DAO
  * @version
  * 		0 BookDaoImpl with CRUD
+ * 	    1 transaction management
  * @since 2016/7/5
  * @Description
  *   first version
@@ -30,11 +32,18 @@ public class BookDaoImpl implements BookDao
 	 */
 	public void saveObject(Book book)
 	{
-		 
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		session.save(book);
-		session.getTransaction().commit();
+		try
+		{
+			session.beginTransaction();
+			session.save(book);
+		}catch (Exception e)
+		{
+			Log.log.log("Error In BookDAO creation:").log(e.getMessage()).log();
+		}finally
+		{
+			session.getTransaction().commit();
+		}
 	};
 	
 	/**
@@ -45,9 +54,17 @@ public class BookDaoImpl implements BookDao
 	public void deleteBook(Book book)
 	{
 	    Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		session.delete(book);
-		session.getTransaction().commit();
+		try
+		{
+			session.beginTransaction();
+			session.delete(book);
+		}catch (Exception e)
+		{
+			Log.log.log("Error In BookDAO deletion:").log(e.getMessage()).log();
+		}finally
+		{
+			session.getTransaction().commit();
+		}
     };
     
     /**
@@ -56,49 +73,65 @@ public class BookDaoImpl implements BookDao
      * @return Book Found
      */
 	public Book FindBookByISBN(String ISBN)
-	  {
-		    Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+	{
+	    Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		try
+		{
 			session.beginTransaction();
-			String hql = "from Book as book where book.isbn=? ";  
-			Query query=session.createQuery(hql);
+			String hql = "from Book as book where book.isbn=? ";
+			Query query = session.createQuery(hql);
 			query.setString(0, ISBN);
-			List bookList = query.list();  
-			session.getTransaction().commit();
-			if (bookList != null && bookList.size() >= 1) 
+			List bookList = query.list();
+			if (bookList != null && bookList.size() >= 1)
 			{
 				return (Book) bookList.get(0);
-			} else 
+			} else
 			{
 				return null;
 			}
-	  };
-	  
-      /**
-       * 根据书籍名对书籍（相似搜索）
-	   * @param name 书籍名
-	   * @return List<Book> found
-	   */
-	  @Override
-	  public List<Book> FindBookByName(String name) 
-	  {
+		}catch (Exception e)
+		{
+			Log.log.log("Error In BookDAO findByISBN:").log(e.getMessage()).log();
+			return null;
+		}finally
+		{
+			session.getTransaction().commit();
+		}
+	};
 
-	      Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		  session.beginTransaction();
-		
-		  String hql = "from Book as book where book.name like '%'||?||'%' ";   
-		  Query query=session.createQuery(hql); 
-		  query.setString(0, name);
-		  List bookList = query.list();
-		  session.getTransaction().commit();
-		  if (bookList != null && bookList.size() >= 1) 
-		  {
-			  return (List<Book>) bookList;
-		  } 
-		  else 
-		  {
-			  return null;
-		  }
-	  };
+	/**
+	 * 根据书籍名对书籍（相似搜索）
+	 * @param name 书籍名
+	 * @return List<Book> found
+	 */
+	@Override
+	public List<Book> FindBookByName(String name)
+	{
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		try
+		{
+			session.beginTransaction();
+
+			String hql = "from Book as book where book.name like '%'||?||'%' ";
+			Query query = session.createQuery(hql);
+			query.setString(0, name);
+			List bookList = query.list();
+			if (bookList != null && bookList.size() >= 1)
+			{
+				return (List<Book>) bookList;
+			} else
+			{
+				return null;
+			}
+		}catch (Exception e)
+		{
+			Log.log.log("Error In BookDAO findByName:").log(e.getMessage()).log();
+			return null;
+		}finally
+		{
+			session.getTransaction().commit();
+		}
+	};
 	  
 		/**
 		 * 搜索某一作家的书籍（相似搜索）
@@ -109,19 +142,27 @@ public class BookDaoImpl implements BookDao
 	  public List<Book> FindBookByAuthor(String author) 
 	  {
 	      Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		  session.beginTransaction();
-		  String hql = "from Book as book where book.author like '%'||?||'%' ";   
-		  Query query=session.createQuery(hql);
-		  query.setString(0, author);
-		  List bookList = query.list();
-		  session.getTransaction().commit();
-		  if (bookList != null && bookList.size() >= 1) 
+		  try
 		  {
-			  return (List<Book>) bookList;
-		  } 
-		  else 
+			  session.beginTransaction();
+			  String hql = "from Book as book where book.author like '%'||?||'%' ";
+			  Query query = session.createQuery(hql);
+			  query.setString(0, author);
+			  List bookList = query.list();
+			  if (bookList != null && bookList.size() >= 1)
+			  {
+				  return (List<Book>) bookList;
+			  } else
+			  {
+				  return null;
+			  }
+		  }catch (Exception e)
 		  {
+			  Log.log.log("Error In BookDAO findByAuthor").log(e.getMessage()).log();
 			  return null;
+		  }finally
+		  {
+			  session.getTransaction().commit();
 		  }
 	  }
 	  
@@ -135,19 +176,27 @@ public class BookDaoImpl implements BookDao
 	  public List<Book> FindBookByNameAndAuthor(String name, String author) 
 	  {
 	      Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		  session.beginTransaction();
-		  String hql = "from Book as book where book.name like '%'||?||'%'and book.author like '%'||?||'%' ";   
-		  Query query=session.createQuery(hql);
-		  query.setString(0, name).setString(1, author);
-		  List bookList = query.list();  
-		  session.getTransaction().commit();
-		  if (bookList != null && bookList.size() >= 1) 
+		  try
 		  {
-			  return (List<Book>) bookList;
-		  }
-		  else 
-		  { 
+			  session.beginTransaction();
+			  String hql = "from Book as book where book.name like '%'||?||'%'and book.author like '%'||?||'%' ";
+			  Query query = session.createQuery(hql);
+			  query.setString(0, name).setString(1, author);
+			  List bookList = query.list();
+			  if (bookList != null && bookList.size() >= 1)
+			  {
+				  return (List<Book>) bookList;
+			  } else
+			  {
+				  return null;
+			  }
+		  }catch (Exception e)
+		  {
+			  Log.log.log("Error In BookDAO findByNameAuthor:").log(e.getMessage()).log();
 			  return null;
+		  }finally
+		  {
+			  session.getTransaction().commit();
 		  }
 	  }
 	  
@@ -160,9 +209,18 @@ public class BookDaoImpl implements BookDao
 	  public void updateBook(Book book) 
 	  {
 		  Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		  session.beginTransaction();
-		  session.update(book);
-		  session.getTransaction().commit();		
+		  try
+		  {
+			  session.beginTransaction();
+			  session.update(book);
+		  }catch (Exception e)
+		  {
+			  Log.log.log("Error In BookDAO update:").log(e.getMessage()).log();
+			  return;
+		  }finally
+		  {
+			  session.getTransaction().commit();
+		  }
 	  };
 
 }
