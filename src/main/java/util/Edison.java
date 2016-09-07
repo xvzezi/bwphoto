@@ -2,6 +2,7 @@ package util;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import model.db.User;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
