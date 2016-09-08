@@ -18,12 +18,12 @@ import java.util.List;
  */
 public class Edison
 {
-	String ip = "192.168.1.";
-	int tail = 0;
-	int port = 0;
-	Socket soc = null;
-	BufferedReader br = null;
-	BufferedWriter bw = null;
+	private String ip = "192.168.1.";
+	private int tail = 0;
+	private int port = 0;
+	private Socket soc = null;
+	private BufferedReader br = null;
+	private BufferedWriter bw = null;
 
 	public Edison(int tail, int port, String auth) throws EdisonError
 	{
@@ -44,7 +44,7 @@ public class Edison
 		//TODO try to connect to edison
 		try
 		{
-			soc = new Socket("localhost", this.port);
+			soc = new Socket("192.168.1.108", this.port);
 		}catch (Exception e)
 		{
 			soc = null;
@@ -210,13 +210,13 @@ public class Edison
 	public static void main(String[] args)
 	{
 		try{
-			Edison edison = new Edison(108, 8080, "memory");
+			Edison edison = new Edison(108, 80, "memory");
 			User user = new User();
 			user.setAge(10);
 			user.setName("Love");
 			List<User> users = new ArrayList<>();
 			users.add(user);
-//			edison.sendArray(users);
+			edison.sendArray(users);
 			List<User> uss = edison.getArray(User.class);
 			for(User tar: uss)
 			{
