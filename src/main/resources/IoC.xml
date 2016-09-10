@@ -7,12 +7,14 @@
          http://www.springframework.org/schema/context/spring-context-4.2.xsd">
 
 	<!-- 登录与注册服务 -->
+	<bean id="recDao" class="DAO.imple.RecDataDaoImpl"/>
 	<bean id="userDao" class="DAO.imple.UserDaoImpl"/>
 	<bean id="logService" class="service.imple.LogServiceImpl">
 		<property name="dao" ref="userDao"/>
 	</bean>
 	<bean id="regService" class="service.imple.RegisterServiceImpl">
 		<property name="dao" ref="userDao"/>
+		<property name="dataDao" ref="recDao"/>
 	</bean>
 
 	<!-- 资源服务 -->
@@ -69,6 +71,13 @@
 	<!--用户信息 服务 -->
 	<bean id="userService" class="service.imple.UserServiceImpl">
 		<property name="dao" ref="userDao"/>
+	</bean>
+
+	<!--用户推荐 服务-->
+	<bean id="recService" class="service.imple.RecServiceImpl">
+		<property name="dataDao" ref="recDao"/>
+		<property name="friendDao" ref="friendDao"/>
+		<property name="userDao" ref="userDao"/>
 	</bean>
 
 

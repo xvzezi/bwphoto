@@ -34,14 +34,14 @@ public class Edison
 			setConAddr(255);
 		}
 
-		//TODO try to set a port
+		// try to set a port
 		if(port < 0)
 		{
 			port = 0;
 		}
 		this.port = port;
 
-		//TODO try to connect to edison
+		// try to connect to edison
 		try
 		{
 			soc = new Socket("192.168.1.108", this.port);
@@ -51,7 +51,7 @@ public class Edison
 			throw new EdisonError(e.getMessage());
 		}
 
-		//TODO handshaking
+		// handshaking
 		String news = "edison_memory\n";
 		try
 		{

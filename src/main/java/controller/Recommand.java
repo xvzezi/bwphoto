@@ -1,7 +1,9 @@
 package controller;
 
+import DAO.ItemDao;
 import model.IntegerMes;
 import model.RegMes;
+import model.db.Item;
 import model.db.User;
 import org.jboss.logging.annotations.Param;
 import org.omg.CORBA.Request;
@@ -9,6 +11,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import service.RecService;
+import service.ResourceService;
+import util.SpringIoC;
 import util.StatisticUtil;
 
 import javax.servlet.http.HttpSession;
@@ -21,6 +26,7 @@ import java.util.List;
  * @since 2016/7/12
  * @version
  *      0
+ *      1   Detailed Implementation 2016/8/4
  */
 @RestController
 public class Recommand
@@ -59,14 +65,10 @@ public class Recommand
 	}
 
 	@RequestMapping(value = "/statistics/resources", method = RequestMethod.GET)
-	public IntegerMes getResourceCount() { return new IntegerMes(10001); }
+	public IntegerMes getResourceCount() { return new IntegerMes(SpringIoC.idGetter("itemDao", ItemDao.class).getAmount()); }
 
 	@RequestMapping(value = "/statistics/friends", method = RequestMethod.GET)
-	public IntegerMes getTotalFriends() { return new IntegerMes(1009); }
-	//TODO: latest resources
-	//TODO: connected resources order by time
-	//time, tag, age,
-	//image character match, 特征值储存在数据库
+	public IntegerMes getTotalFriends() { return new IntegerMes(0); }
 
 	/**
 	 * Zombie Test Recommend
@@ -80,6 +82,42 @@ public class Recommand
 		List<User> us = new ArrayList<>();
 		us.add(robot);
 		return us;
+	}
+
+	/**
+	 * Recommend Service
+	 * Description:
+	 *      It use 4 degree to value the thought of people.
+	 *      The emotion, type; friends' emotion and type,
+	 *      these 4 way to balance to get what they want.
+	 */
+	@RequestMapping(value = "/recommend/resource", method = RequestMethod.GET)
+	public List<Item> getRecResource(HttpSession session)
+	{
+		//if not logged, return the latest resources
+		String name = (String)session.getAttribute("name");
+		if(name == null)
+		{
+			List<Item> items = SpringIoC.idGetter("resourceService", ResourceService.class).getLatestResource(null, 10);
+			return items;
+		}
+
+		// check the same compatible resources, and return
+		return null;
+	}
+
+	@RequestMapping(value = "/recommend/user", method = RequestMethod.GET)
+	public List<String> getRecUsers(HttpSession session)
+	{
+		// if not logged, just return null
+		String name = (String)session.getAttribute("name");
+		if(name == null)
+		{
+			return null;
+		}
+
+		// check the same compare target users, and return
+		return SpringIoC.idGetter("recService", RecService.class).getRecFriends(name);
 	}
 
 }

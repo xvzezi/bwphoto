@@ -20,6 +20,7 @@ public interface FriendService
 	 */
 	public List<Friend> getFriends(String name);
 
+
 	/**
 	 * 删除一个好友
 	 * @param name

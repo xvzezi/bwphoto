@@ -36,7 +36,6 @@ public class Words
             rm.setFail("User Not Logged");
             return rm;
         }
-        //TODO: didn't check the auth
         //get the words
         WordService ws = SpringIoC.idGetter("wordService", WordService.class);
         Memory mem = ws.getMemoryByItem(resource_id);
@@ -67,8 +66,6 @@ public class Words
             rm.setFail("User Not Logged");
             return rm;
         }
-        //TODO: check the auth
-        //TODO: create words and get the old one if has
         Memory mem = new Memory();
         mem.setContent(content.getContent());
         Date date = new Date();

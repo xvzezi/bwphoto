@@ -21,6 +21,14 @@ public interface FriendDao
      */
     public List<Friend> FindFriend(String name);
 
+
+	/**
+	 * 获取目前所有的好友数量
+	 * @param name
+	 * @return amount
+	 */
+	public int getFriendAmount(String name);
+
 	/**
      * 找到所有的朋友
      * @param name

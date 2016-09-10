@@ -59,7 +59,7 @@ public class UserLog {
 		if(mes.equals("Success"))
 		{
 			if(oldUser == null) oldUser = "";
-			StatisticUtil.visitorCounter += 1;
+			StatisticUtil.visit();
 			rm.setSuccess("Login Success with old user " + oldUser);
 			Log.log.log("/login POST").log("success").log("username:").log(user.getUsername()).log();
 		}

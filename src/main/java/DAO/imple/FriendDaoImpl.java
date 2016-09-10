@@ -48,7 +48,31 @@ public class FriendDaoImpl implements FriendDao
 			session.getTransaction().commit();
 		}
 	};
-    
+	/**
+	 * 获取目前所有的好友数量
+	 * @param name
+	 * @return amount
+	 */
+	public int getFriendAmount(String name)
+	{
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		try
+		{
+			session.beginTransaction();
+			Query query = session.createQuery("select count(*) from Friend where myName=?");
+			query.setString(0, name);
+			int amount = (Integer)query.uniqueResult();
+			return amount;
+		}catch (Exception e)
+		{
+			Log.log.log("Error In FriendDAO getAmount:").log(e.getMessage()).log();
+			return 0;
+		}finally
+		{
+			session.getTransaction().commit();
+		}
+	}
+
 	/**
 	 * 查看好友列表
 	 * @param myName 当前用户用户名

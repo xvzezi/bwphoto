@@ -250,5 +250,27 @@ public class ItemDaoImpl implements ItemDao
 		session.getTransaction().commit();
 		return items;
 	}
+
+	/**
+	 * amount
+	 */
+	public int getAmount()
+	{
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		try
+		{
+			session.beginTransaction();
+			Query query = session.createQuery("select count(*) from Item");
+			Integer i = (Integer) query.uniqueResult();
+			return i;
+		}catch (Exception e)
+		{
+			Log.log.log("Error In ItemDAO getAmount:").log(e.getMessage()).log();
+			return 0;
+		}finally
+		{
+			session.getTransaction().commit();
+		}
+	}
 }
 	 

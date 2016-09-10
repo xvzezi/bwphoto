@@ -1,7 +1,7 @@
 package service;
 
-import model.BasicInfo;
 import model.db.Item;
+import model.request.ResourceCreation;
 
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -38,10 +38,10 @@ public interface ResourceService
 	/**
 	 * 创建一个空资源，以存放新的信息
      * @param name
-     * @param basicInfo
+     * @param resourceCreation
      * @return 新资源
      */
-    public Item createResource(String name, BasicInfo basicInfo);
+    public Item createResource(String name, ResourceCreation resourceCreation);
 
 	/**
 	 * 删除一个资源

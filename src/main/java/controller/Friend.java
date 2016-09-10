@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import service.FriendService;
+import service.RecService;
 import util.SpringIoC;
+import util.StatisticUtil;
 
 import javax.servlet.http.HttpSession;
 import javax.swing.*;
@@ -21,6 +23,7 @@ import java.util.List;
  * @version
  *      0   api formed
  *      1   API implemented     2016/7/14
+ *      2   Detailed Check      2016/8/4
  */
 
 @RestController
@@ -72,6 +75,7 @@ public class Friend
 		RegMes rm = new RegMes();
 		if(result)
 		{
+			SpringIoC.idGetter("recService", RecService.class).deleteFriend(name, username);
 			rm.setSuccess("success");
 		}
 		else
@@ -165,7 +169,8 @@ public class Friend
 
 	/**
 	 * 交朋友——获取某个申请人 的具体信息
-	 * @auth PROTECTED TODO
+	 * @Deprecated use the /identity/detail/{username}
+	 * @auth PROTECTED
 	 * @param username
 	 * @param session
 	 * @return 具体信息包括 同样的tag，因为什么加我为好友
@@ -201,6 +206,8 @@ public class Friend
 		RegMes rm = new RegMes();
 		if(result.equals("success"))
 		{
+			StatisticUtil.friend();
+			SpringIoC.idGetter("recService", RecService.class).addFriend(name, username);
 			rm.setSuccess("agree success");
 		}
 		else

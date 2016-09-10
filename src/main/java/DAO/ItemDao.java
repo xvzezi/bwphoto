@@ -60,5 +60,11 @@ public interface ItemDao{
     public void updateItem(Item item);
     public void saveObject(Item item);
     public void deleteItem(Item item);
+
+	/**
+	 * 数量
+	 * @return amount
+	 */
+	public int getAmount();
     
 }

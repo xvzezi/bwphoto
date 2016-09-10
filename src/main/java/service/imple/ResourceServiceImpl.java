@@ -4,9 +4,9 @@ import DAO.FriendDao;
 import DAO.ItemDao;
 import DAO.UserDao;
 import controller.Friend;
-import model.BasicInfo;
 import model.db.Item;
 import model.db.User;
+import model.request.ResourceCreation;
 import service.ResourceService;
 import util.Log;
 
@@ -88,20 +88,22 @@ public class ResourceServiceImpl implements ResourceService
     /**
      * 创建一个空资源
      * @param name
-     * @param bi
+     * @param resourceCreation
      * @return item
      */
     @Override
-    public Item createResource(String name, BasicInfo bi)
+    public Item createResource(String name, ResourceCreation resourceCreation)
     {
         // create new one
         Item item = new Item();
         item.setUserName(name);
         Date date = new Date();
         item.setTime(new Timestamp(date.getTime()));
+        item.setEmotion(resourceCreation.getEmotion());
         dao.saveObject(item);
 
         // when nothing's wrong
+
         // add one to the people's account
         User user = userDao.FindUserByName(name);
         user.setAmount(user.getAmount() + 1);
@@ -124,7 +126,7 @@ public class ResourceServiceImpl implements ResourceService
         // when nothing's wrong
         // add one to the people's account
         User user = userDao.FindUserByName(name);
-        user.setAmount(user.getAmount() + 1);
+        user.setAmount(user.getAmount() - 1);
         userDao.updateUser(user);
 
         return true;

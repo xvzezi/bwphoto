@@ -10,19 +10,21 @@ import javax.servlet.http.HttpSession;
 import javax.swing.*;
 
 import DAO.ItemDao;
-import model.BasicInfo;
 import model.RegMes;
 import model.db.Item;
 import model.db.Itemtag;
 import model.db.Mark;
 import model.db.Tag;
 import model.request.MarkCreation;
+import model.request.ResourceCreation;
 import org.springframework.web.bind.annotation.*;
 import service.MarkService;
+import service.RecService;
 import service.ResourceService;
 import service.TagService;
 import util.Log;
 import util.SpringIoC;
+import util.StatisticUtil;
 
 import static model.RegMes.FAIL;
 import static model.RegMes.SUCCESS;
@@ -36,6 +38,7 @@ import static model.RegMes.SUCCESS;
  *      1   tag added   2016/7/15
  *      1.1 tag removed 2016/7/17
  *      2   complex getting logical 2016/7/27
+ *      3   Recommend support   2016/8/4
  */
 @RestController
 public class Resource
@@ -117,7 +120,7 @@ public class Resource
 	 * @return
 	 */
 	@RequestMapping(value = "/resources", method = RequestMethod.POST)
-	public Object createResource(HttpSession session)
+	public Object createResource(@RequestBody ResourceCreation resourceCreation, HttpSession session)
 	{
 		//check session
 		String name = (String)session.getAttribute("name");
@@ -126,12 +129,22 @@ public class Resource
 			return SUCCESS("Not Logged");
 		}
 
+		// check info
+		Integer emo = resourceCreation.getEmotion();
+		Integer typ = resourceCreation.getType();
+		if(emo == null || typ == null || emo < 0 || emo > 5 || typ < 0 || typ > 2)
+		{
+			return FAIL("Wrong Emotion Or Type Settings");
+		}
+
 		//create the resource
 		ResourceService rs = SpringIoC.idGetter("resourceService", ResourceService.class);
-		Item result = rs.createResource(name, new BasicInfo());
+		Item result = rs.createResource(name, resourceCreation);
+		SpringIoC.idGetter("recService", RecService.class).addResource(name, resourceCreation);
 		if(result != null)
 		{
 			Log.log.log("/resources POST").log("logged by").log(name).log("success").log();
+			StatisticUtil.resource(); // 资源计数
 			return result;
 		}
 		else
@@ -208,6 +221,13 @@ public class Resource
 
 		// do the deletion
 		ResourceService rs = SpringIoC.idGetter("resourceService", ResourceService.class);
+		List<Item> item = rs.getResources(name, resource_id);
+		if(item == null)
+		{
+			return FAIL("Resources Not Exists");
+		}
+		SpringIoC.idGetter("recService", RecService.class).deleteResource(item.get(0));
+
 		boolean result = rs.deleteResource(name, resource_id);
 		if(result)
 		{
@@ -328,25 +348,4 @@ public class Resource
 	}
 
 	/****************************************************resource type*************************************************/
-	@RequestMapping(value = "/resources/{resource_id}/{mood_id}", method = RequestMethod.PUT)
-	public Object setResourceMood(@PathVariable int resource_id, @PathVariable int mood_id, HttpSession session)
-	{
-		// check the name
-		String name = (String)session.getAttribute("name");
-		if(name == null)
-		{
-			return FAIL("Not Logged");
-		}
-
-		// check the value
-		if(mood_id < 0 || mood_id > 5)
-		{
-			return FAIL("Unsupported Mood Id");
-		}
-
-		// check the auth, do it right
-		ResourceService rs = SpringIoC.idGetter("resourceService", ResourceService.class);
-		//rs. ...
-		return FAIL("Not Implemented");
-	}
 }
