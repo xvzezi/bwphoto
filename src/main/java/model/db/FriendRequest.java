@@ -20,7 +20,7 @@ public class FriendRequest implements Serializable
 	@JsonProperty
 	private String applyee;
 	@JsonProperty
-	private char status;
+	private int status;
 
 	public String getApplyer()
 	{
@@ -32,12 +32,12 @@ public class FriendRequest implements Serializable
 		this.applyer = applyer;
 	}
 
-	public char getStatus()
+	public int getStatus()
 	{
 		return status;
 	}
 
-	public void setStatus(char status)
+	public void setStatus(int status)
 	{
 		this.status = status;
 	}

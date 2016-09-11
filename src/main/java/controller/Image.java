@@ -54,6 +54,7 @@ public class Image
 			String url = imgService.getBookUrl(resource_id);
 			if(url != null)// then redirect to the target resource
 			{
+				Log.log.log(url).log();
 				return new ModelAndView("redirect:"+url);
 			}//failed
 			//cannot get the pic get the default png

@@ -2,6 +2,7 @@ package util;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import model.EdisonMemory;
 import model.db.User;
 
 import java.io.BufferedReader;
@@ -9,7 +10,9 @@ import java.io.BufferedWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -44,7 +47,7 @@ public class Edison
 		// try to connect to edison
 		try
 		{
-			soc = new Socket("192.168.1.108", this.port);
+			soc = new Socket("10.189.83.69", this.port);
 		}catch (Exception e)
 		{
 			soc = null;
@@ -211,16 +214,14 @@ public class Edison
 	{
 		try{
 			Edison edison = new Edison(108, 80, "memory");
-			User user = new User();
-			user.setAge(10);
-			user.setName("Love");
-			List<User> users = new ArrayList<>();
-			users.add(user);
-			edison.sendArray(users);
-			List<User> uss = edison.getArray(User.class);
-			for(User tar: uss)
+			EdisonMemory edisonMemory = new EdisonMemory("happy", "Today is very happy", "c23d025ee9ece593abd96d7b97db97b4", new Timestamp(new Date().getTime()));
+			List<EdisonMemory> edisonMemories = new ArrayList<>();
+			edisonMemories.add(edisonMemory);
+			edison.sendArray(edisonMemories);
+			List<EdisonMemory> uss = edison.getArray(EdisonMemory.class);
+			for(EdisonMemory tar: uss)
 			{
-				System.out.println(tar.getName());
+				System.out.println(tar.getMemoryText());
 			}
 			edison.close();
 

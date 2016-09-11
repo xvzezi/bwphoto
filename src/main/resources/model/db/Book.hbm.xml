@@ -13,7 +13,7 @@
 		<property name="author" column="author" type="java.lang.String"
 			not-null="true" length="10" />
 		<property name="intro" column="intro" type="java.lang.String"
-			not-null="true" length="280" />
+			not-null="true"/>
 	    
 	</class>
 </hibernate-mapping> 

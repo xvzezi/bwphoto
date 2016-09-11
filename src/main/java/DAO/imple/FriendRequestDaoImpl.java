@@ -68,7 +68,7 @@ public class FriendRequestDaoImpl implements FriendRequestDao
 			model.db.FriendRequest fr = new model.db.FriendRequest();
 			fr.setApplyer(applyer);
 			fr.setApplyee(applyee);
-			fr.setStatus('-');
+			fr.setStatus(0);
 			session.save(fr);
 			return true;
 		}catch (Exception e)
@@ -82,7 +82,7 @@ public class FriendRequestDaoImpl implements FriendRequestDao
 	}
 
 	@Override
-	public char updateStatus(String applyer, String applyee, char newStatus)
+	public int updateStatus(String applyer, String applyee, int newStatus)
 	{
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try
@@ -93,9 +93,10 @@ public class FriendRequestDaoImpl implements FriendRequestDao
 			model.db.FriendRequest fr = (model.db.FriendRequest) query.uniqueResult();
 			if (fr == null)
 			{
+
 				return 0;
 			}
-			char oldStatus = fr.getStatus();
+			int oldStatus = fr.getStatus();
 			fr.setStatus(newStatus);
 			session.update(fr);
 			return oldStatus;

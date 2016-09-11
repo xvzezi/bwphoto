@@ -59,7 +59,7 @@ public class MusicAndBook
 		}
 		// the called service should check the
 		ResourceService rs = SpringIoC.idGetter("resourceService", ResourceService.class);
-		String mes = rs.setMusicHash(resource_id, isbn, name);
+		String mes = rs.setBookISBN(resource_id, isbn, name);
 		if(mes.equals("success"))
 		{
 			return SUCCESS(isbn);
@@ -76,8 +76,8 @@ public class MusicAndBook
 		return FAIL("Not Implemented");
 	}
 
-	@RequestMapping(value = "/books/{ISBN}", method = RequestMethod.POST)
-	public Object changeABook(@PathVariable String ISBN, @RequestBody BookCreation bookCreation, HttpSession session)
+	@RequestMapping(value = "/books/{ISBN}/{url}", method = RequestMethod.POST)
+	public Object changeABook(@PathVariable String ISBN, @PathVariable String url, @RequestBody BookCreation bookCreation, HttpSession session)
 	{
 		// check log
 		String name = (String)session.getAttribute("name");
@@ -87,7 +87,8 @@ public class MusicAndBook
 		}
 
 		BookService bs = SpringIoC.idGetter("bookService", BookService.class);
-		String result = bs.updateIsbnUrl(ISBN, bookCreation.getUrl());
+		String result = bs.updateIsbnUrl(ISBN, url);
+		System.out.println(bookCreation.getUrl());
 		if("success".equals(result))
 		{
 			return SUCCESS("success");

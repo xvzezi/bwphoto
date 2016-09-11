@@ -106,12 +106,10 @@ public class ItemtagDaoImpl implements ItemtagDao{
 			it.setItemId(item_id);
 			it.setTagName(tagname);
 			session.save(it);
+			session.getTransaction().commit();
 		}catch (Exception e)
 		{
 			return false;
-		}finally
-		{
-			session.getTransaction().commit();
 		}
 		return true;
 	}

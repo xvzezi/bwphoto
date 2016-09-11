@@ -30,7 +30,7 @@ public class Item{
 	private String userName;
 
 	@JsonProperty
-	private char status;
+	private int status;
 
 	@JsonProperty
 	private Timestamp time;
@@ -79,12 +79,12 @@ public class Item{
 		this.userName=userName;
 	}
 
-	public char getStatus()
+	public int getStatus()
 	{
 		return status;
 	}
 
-	public void setStatus(char status)
+	public void setStatus(int status)
 	{
 		this.status = status;
 	}

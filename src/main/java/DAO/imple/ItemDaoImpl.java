@@ -7,7 +7,6 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 
 import DAO.ItemDao;
-import model.db.Book;
 import model.db.Item;
 import util.HibernateUtil;
 import util.Log;
@@ -38,11 +37,11 @@ public class ItemDaoImpl implements ItemDao
 		String hql = "";
 		if(timestamp == null)
 		{
-			hql = "from Item where status='1' order by time ";
+			hql = "from Item where status=1 order by time ";
 		}
 		else
 		{
-			hql = "from Item where time < ? and status='1' order by time";
+			hql = "from Item where time < ? and status=1 order by time";
 		}
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
@@ -101,18 +100,27 @@ public class ItemDaoImpl implements ItemDao
 	public Item FindItemById(int id)
 	{
 	    Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		String hql = "from Item as item where item.id=? ";  
-		Query query=session.createQuery(hql);
-		query.setInteger(0, id);
-		List itemList = query.list();  
-		session.getTransaction().commit();
-		if (itemList != null && itemList.size() >= 1) 
+		try
 		{
-			return (Item) itemList.get(0);
-		} else 
+			session.beginTransaction();
+			String hql = "from Item as item where item.id=? ";
+			Query query=session.createQuery(hql);
+			query.setInteger(0, id);
+			List itemList = query.list();
+			if (itemList != null && itemList.size() >= 1)
+			{
+				return (Item) itemList.get(0);
+			} else
+			{
+				return null;
+			}
+		}catch (Exception e)
 		{
+			Log.log.log("Error In Item Find by id: ").log(e.getMessage()).log();
 			return null;
+		}finally
+		{
+			session.getTransaction().commit();
 		}
 	}
 	
@@ -125,8 +133,17 @@ public class ItemDaoImpl implements ItemDao
 	{
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
-		session.update(item);
-		session.getTransaction().commit();
+		try
+		{
+			session.update(item);
+		}catch (Exception e)
+		{
+			Log.log.log("Error In Item update: ").log(e.getMessage()).log();
+		}
+		finally
+		{
+			session.getTransaction().commit();
+		}
 		
 	}
 	
@@ -141,19 +158,26 @@ public class ItemDaoImpl implements ItemDao
 	{
 	    Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
-		
-		String hql = "from Item where userName=? ";
-		Query query=session.createQuery(hql);
-		query.setString(0, username);
-		List itemList = query.list();
-		session.getTransaction().commit();
-		if (itemList != null && itemList.size() >= 1) 
+		try
 		{
-			return (List<Item>) itemList;
-		} 
-		else 
+			String hql = "from Item where userName=? ";
+			Query query = session.createQuery(hql);
+			query.setString(0, username);
+			List itemList = query.list();
+			if (itemList != null && itemList.size() >= 1)
+			{
+				return (List<Item>) itemList;
+			} else
+			{
+				return null;
+			}
+		}catch (Exception e)
 		{
+			Log.log.log("Error In Item Find by id: ").log(e.getMessage()).log();
 			return null;
+		}finally
+		{
+			session.getTransaction().commit();
 		}
 	}
 
@@ -206,9 +230,18 @@ public class ItemDaoImpl implements ItemDao
 		{
 			query.setFetchSize(amount);
 		}
-		List<Item> items = (List<Item>)query.list();
-		session.getTransaction().commit();
-		return items;
+		try
+		{
+			List<Item> items = (List<Item>) query.list();
+			return items;
+		}catch (Exception e)
+		{
+			Log.log.log("Error In Item Find by Username: ").log(e.getMessage()).log();
+			return null;
+		}finally
+		{
+			session.getTransaction().commit();
+		}
 	}
 
 	/**
@@ -229,7 +262,7 @@ public class ItemDaoImpl implements ItemDao
 		}
 
 		// forge the statement
-		String hql = "from Item where userName in (:nameList) ";
+		String hql = "from Item where userName in :nameList and status=1 ";
 		if(timestamp != null)
 		{
 			hql += "and time < :timestamp";
@@ -246,9 +279,18 @@ public class ItemDaoImpl implements ItemDao
 		{
 			query.setFetchSize(amount);
 		}
-		List<Item> items = query.list();
-		session.getTransaction().commit();
-		return items;
+		try
+		{
+			List<Item> items = query.list();
+			return items;
+		}catch (Exception e)
+		{
+			Log.log.log("Error In Item Find by Userfriend: ").log(e.getMessage()).log();
+			return null;
+		}finally
+		{
+			session.getTransaction().commit();
+		}
 	}
 
 	/**

@@ -54,7 +54,7 @@ public interface FriendService
 	 * @return 完成度信息
 	 *      方法禁止修改已经审核过的请求，只允许修改待审核的请求。
 	 */
-	public String changeRequestStatus(String applyer, String applyee, char newStatus);
+	public String changeRequestStatus(String applyer, String applyee, int newStatus);
 
 	/**
 	 * 提出申请

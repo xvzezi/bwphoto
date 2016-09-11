@@ -80,6 +80,11 @@
 		<property name="userDao" ref="userDao"/>
 	</bean>
 
+	<!-- 书 -->
+	<bean id="bookService" class="service.imple.BookServiceImpl">
+		<property name="bookDao" ref="bookDao"/>
+	</bean>
+
 
 	<!-- Mongo Database连接-->
 	<bean id="mongodb" class="util.MongoConfig">

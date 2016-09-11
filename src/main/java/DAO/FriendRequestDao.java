@@ -44,7 +44,7 @@ public interface FriendRequestDao
 	 * @return old status
 	 *      给定唯一标示，改变为new status并返回old status
 	 */
-	public char updateStatus(String applyer, String applyee, char newStatus);
+	public int updateStatus(String applyer, String applyee, int newStatus);
 
 	/**
 	 * 删除请求

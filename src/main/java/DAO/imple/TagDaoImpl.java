@@ -113,14 +113,11 @@ public class TagDaoImpl implements TagDao {
 		{
 			session.beginTransaction();
 			session.save(tag);
+			session.getTransaction().commit();
 		}catch (Exception e)
 		{
 			Log.log.log("Error In TagDAO add:").log(e.getMessage()).log();
-		}finally
-		{
-			session.getTransaction().commit();
 		}
-		
 	}
 
 }

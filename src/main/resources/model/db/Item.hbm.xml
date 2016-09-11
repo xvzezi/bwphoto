@@ -18,7 +18,7 @@
 			not-null="false" length="10"/>
 		<property name="userName" column="user_name" type="java.lang.String"
 			not-null="false" length="10"/>
-		<property name="status" column="status" type="char"/>
+		<property name="status" column="status" type="int"/>
 		<property name="time" column="time" type="java.sql.Timestamp"/>
 		<property name="emotion" column="emo" type="java.lang.Integer"/>
 	</class>

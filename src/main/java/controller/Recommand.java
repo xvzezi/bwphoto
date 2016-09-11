@@ -72,6 +72,7 @@ public class Recommand
 
 	/**
 	 * Zombie Test Recommend
+	 * @Deprecated
 	 * @return
 	 */
 	@RequestMapping(value = "/rec/tags", method = RequestMethod.GET)

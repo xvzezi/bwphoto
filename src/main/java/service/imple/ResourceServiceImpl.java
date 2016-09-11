@@ -77,7 +77,7 @@ public class ResourceServiceImpl implements ResourceService
         //check the username
         if(!item.getUserName().equals(name))
         {
-            if(item.getStatus() != 'y')
+            if(item.getStatus() != 1)
                 return null;
         }
         List<Item> lis = new LinkedList<Item>();
@@ -100,6 +100,7 @@ public class ResourceServiceImpl implements ResourceService
         Date date = new Date();
         item.setTime(new Timestamp(date.getTime()));
         item.setEmotion(resourceCreation.getEmotion());
+        item.setStatus(1);
         dao.saveObject(item);
 
         // when nothing's wrong
@@ -154,7 +155,7 @@ public class ResourceServiceImpl implements ResourceService
      * @return old status
      *      拥有者可以更改自己的资源的权限，以确认展示与否
      */
-    public char changeToPublic(String name, int resource_id)
+    public int changeToPublic(String name, int resource_id)
     {
         Item item = dao.FindItemById(resource_id);
         if(item == null)
@@ -167,12 +168,12 @@ public class ResourceServiceImpl implements ResourceService
             return 1;
         }
         // change the result
-        char old = item.getStatus();
-        item.setStatus('y');
+        int old = item.getStatus();
+        item.setStatus(1);
         dao.updateItem(item);
         return old;
     }
-    public char changeToPrivate(String name, int resource_id)
+    public int changeToPrivate(String name, int resource_id)
     {
         Item item = dao.FindItemById(resource_id);
         if(item == null)
@@ -185,8 +186,8 @@ public class ResourceServiceImpl implements ResourceService
             return 1;
         }
         // change the result
-        char old = item.getStatus();
-        item.setStatus('n');
+        int old = item.getStatus();
+        item.setStatus(0);
         dao.updateItem(item);
         return old;
     }

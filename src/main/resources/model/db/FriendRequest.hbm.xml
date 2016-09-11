@@ -9,6 +9,6 @@
             <key-property name="applyer" column="applyer" type="java.lang.String"  length="10"></key-property>
             <key-property name="applyee" column="applyee" type="java.lang.String"  length="10"></key-property>
         </composite-id>
-        <property name="status" column="status" type="char"/>
+        <property name="status" column="status" type="int"/>
     </class>
 </hibernate-mapping>

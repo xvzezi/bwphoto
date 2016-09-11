@@ -202,7 +202,7 @@ public class Friend
 
 		// do the request, in the same time, the two should have relations of friends
 		FriendService frs = SpringIoC.idGetter("friendService", FriendService.class);
-		String result = frs.changeRequestStatus(name, username, 'y');
+		String result = frs.changeRequestStatus(name, username, 1);
 		RegMes rm = new RegMes();
 		if(result.equals("success"))
 		{
@@ -238,7 +238,7 @@ public class Friend
 
 		// do the request, in the same time, no relations built
 		FriendService frs = SpringIoC.idGetter("friendService", FriendService.class);
-		String result = frs.changeRequestStatus(name, username, 'n');
+		String result = frs.changeRequestStatus(name, username, -1);
 		RegMes rm = new RegMes();
 		if(result.equals("success"))
 		{

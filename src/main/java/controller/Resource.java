@@ -176,7 +176,7 @@ public class Resource
 		}
 		// do the change
 		ResourceService rs = SpringIoC.idGetter("resourceService", ResourceService.class);
-		char old = rs.changeToPublic(name, resource_id);
+		int old = rs.changeToPublic(name, resource_id);
 		return SUCCESS(""+old);
 	}
 
@@ -199,7 +199,7 @@ public class Resource
 
 		// do the change
 		ResourceService rs = SpringIoC.idGetter("resourceService", ResourceService.class);
-		char old = rs.changeToPrivate(name, resource_id);
+		int old = rs.changeToPrivate(name, resource_id);
 		return SUCCESS(""+old);
 	}
 

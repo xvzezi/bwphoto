@@ -70,7 +70,7 @@ public class FriendServiceImpl implements FriendService
 		List<FriendRequest> frd = new ArrayList<FriendRequest>();
 		for(FriendRequest fr : frs)
 		{
-			if(fr.getStatus() != '-')
+			if(fr.getStatus() != 0)
 			{
 				frd.add(fr);
 			}
@@ -104,7 +104,7 @@ public class FriendServiceImpl implements FriendService
 		List<FriendRequest> frw = new ArrayList<FriendRequest>();
 		for(FriendRequest fr : frs)
 		{
-			if(fr.getStatus() == '-')
+			if(fr.getStatus() == 0)
 			{
 				frw.add(fr);
 			}
@@ -124,21 +124,22 @@ public class FriendServiceImpl implements FriendService
 	 * 方法禁止修改已经审核过的请求，只允许修改待审核的请求。
 	 */
 	@Override
-	public String changeRequestStatus(String applyer, String applyee, char newStatus)
+	public String changeRequestStatus(String applyer, String applyee, int newStatus)
 	{
 		// provided that only character '-', 'y', 'n', will be noticed
 
 		// try to undone it, reject
-		if(newStatus == '-')
+		if(newStatus == 0)
 		{
 			return "Cannot be reset";
 		}
 
 		// try to update
-		char oldStatus = frDao.updateStatus(applyer, applyee, newStatus);
-		if(oldStatus == '-') // valid
+		int oldStatus = frDao.updateStatus(applyer, applyee, newStatus);
+		Log.log.log(""+oldStatus).log();
+		if(oldStatus == 0) // valid
 		{
-			if(newStatus == 'y')
+			if(newStatus == 1)
 			{
 				fDao.addFriend(applyer, applyee);
 				fDao.addFriend(applyee, applyer);

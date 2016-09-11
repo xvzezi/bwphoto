@@ -101,7 +101,7 @@ public class RecDataDaoImpl implements RecDataDao
 			double mood = recData.getEmotion() * 0.9 + recData.getF_emotion() * 0.1;
 			double type = recData.getF_type() * 0.9 + recData.getF_type() * 0.1;
 			// 通过指标来查询一模一样的人，以最后timestamp活跃时间排序
-			query = session.createQuery("select name from RecData where emotion=? and type>? order by checktime desc")
+			query = session.createQuery("select name from RecData where emotion=? and type>=? order by checktime desc")
 					.setDouble(0, mood).setDouble(1, type).setFetchSize(10);
 			List<String> names = query.list();
 			return names;

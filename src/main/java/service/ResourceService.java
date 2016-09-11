@@ -71,8 +71,8 @@ public interface ResourceService
      * @return old status
      *      拥有者可以更改自己的资源的权限，以确认展示与否
      */
-    public char changeToPublic(String name, int resource_id);
-    public char changeToPrivate(String name, int resource_id);
+    public int changeToPublic(String name, int resource_id);
+    public int changeToPrivate(String name, int resource_id);
 
 	/**
 	 * 查看好友的最近信息

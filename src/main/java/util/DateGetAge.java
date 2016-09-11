@@ -1,6 +1,6 @@
 package util;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.Calendar;
 
 public class DateGetAge
@@ -32,6 +32,7 @@ public class DateGetAge
                 age--;
             }
         }
+        if(age < 0) age = 0;
         return age;
     }
 }
