@@ -1,6 +1,6 @@
 package controller;
 
-import model.RegMes;
+import model.response.RegMes;
 import model.db.FriendRequest;
 import model.db.User;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +13,6 @@ import util.SpringIoC;
 import util.StatisticUtil;
 
 import javax.servlet.http.HttpSession;
-import javax.swing.*;
 import java.util.List;
 
 /**

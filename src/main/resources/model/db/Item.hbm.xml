@@ -21,5 +21,6 @@
 		<property name="status" column="status" type="int"/>
 		<property name="time" column="time" type="java.sql.Timestamp"/>
 		<property name="emotion" column="emo" type="java.lang.Integer"/>
+		<property name="img_hash" column="img_hash" type="java.lang.String"/>
 	</class>
 </hibernate-mapping> 

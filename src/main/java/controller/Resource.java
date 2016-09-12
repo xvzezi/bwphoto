@@ -1,33 +1,22 @@
 package controller;
 
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
-import javax.swing.*;
 
-import DAO.ItemDao;
-import model.RegMes;
+import model.response.RegMes;
 import model.db.Item;
-import model.db.Itemtag;
-import model.db.Mark;
-import model.db.Tag;
-import model.request.MarkCreation;
 import model.request.ResourceCreation;
 import org.springframework.web.bind.annotation.*;
-import service.MarkService;
 import service.RecService;
 import service.ResourceService;
-import service.TagService;
 import util.Log;
 import util.SpringIoC;
 import util.StatisticUtil;
 
-import static model.RegMes.FAIL;
-import static model.RegMes.SUCCESS;
+import static model.response.RegMes.FAIL;
+import static model.response.RegMes.SUCCESS;
 
 /**
  * Service Of Resources(Item)
@@ -347,5 +336,50 @@ public class Resource
 		return rs.getPersonalResource(name, name, timestamp, 10);
 	}
 
-	/****************************************************resource type*************************************************/
+	/****************************************************img compare*************************************************/
+	/**
+	 * 上传某一个resource的image的处理hash
+	 * @param resource_id
+	 * @param hash
+	 * @return message
+	 *  如果该资源的图片没有被set会被拒绝
+	 */
+	@RequestMapping(value = "/resources/{resource_id}/imghash/{hash}", method = RequestMethod.POST)
+	public RegMes setImageHash(@PathVariable int resource_id, @PathVariable String hash, HttpSession session)
+	{
+		// check the name
+		String name = (String)session.getAttribute("name");
+		if(name == null)
+		{
+			return FAIL("Not Logged");
+		}
+		ResourceService rs = SpringIoC.idGetter("resourceService", ResourceService.class);
+		String result = rs.setImgHash(resource_id, name, hash);
+		if("success".equals(result))
+		{
+			return SUCCESS("success");
+		}
+		else
+		{
+			return FAIL(result);
+		}
+	}
+
+	/**
+	 * 获取用户自身的所有的img hash
+	 * @return List<ImgHash>
+	 */
+	@RequestMapping(value = "/imghash", method = RequestMethod.GET)
+	public Object getImgHash(HttpSession session)
+	{
+		// check the name
+		String name = (String)session.getAttribute("name");
+		if(name == null)
+		{
+			return FAIL("Not Logged");
+		}
+		// success
+		ResourceService rs = SpringIoC.idGetter("resourceService", ResourceService.class);
+		return rs.getImgHashOfName(name);
+	}
 }

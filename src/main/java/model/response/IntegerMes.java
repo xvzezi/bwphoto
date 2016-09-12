@@ -1,4 +1,4 @@
-package model;
+package model.response;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

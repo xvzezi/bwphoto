@@ -7,6 +7,7 @@ import controller.Friend;
 import model.db.Item;
 import model.db.User;
 import model.request.ResourceCreation;
+import model.response.ImgHash;
 import service.ResourceService;
 import util.Log;
 
@@ -296,5 +297,66 @@ public class ResourceServiceImpl implements ResourceService
             return "Something is Wrong";
         }
         return "success";
+    }
+
+    /**
+     * 在符合条件的情况下，设置hash——image
+     *
+     * @param resource_id
+     * @param name
+     * @param hash
+     * @return boolean
+     */
+    @Override
+    public String setImgHash(int resource_id, String name, String hash)
+    {
+        if(name == null)
+        {
+            return "Require Valid User Name";
+        }
+        if(hash == null)
+        {
+            return "Invalid hash code";
+        }
+        Item item = dao.FindItemById(resource_id);
+        if(item == null)
+        {
+            return "Invalid Resource Id";
+        }
+        if(!name.equals(item.getUserName()))
+        {
+            return "Require Proper Auth";
+        }
+        if(item.getImageId() == null)
+        {
+            return "Image Not Uploaded";
+        }
+        item.setImg_hash(hash);
+        try
+        {
+            dao.updateItem(item);
+        }catch (Exception e)
+        {
+            Log.log.log("Error in setImgHash: ").log(e.getMessage()).log();
+            return "Something is Wrong";
+        }
+        return "success";
+    }
+
+    /**
+     * 获取用户所有的hash, img
+     *
+     * @param name
+     * @return list
+     */
+    @Override
+    public List<ImgHash> getImgHashOfName(String name)
+    {
+        if(name == null)
+        {
+            return null;
+        }
+
+        return dao.getImgHash(name);
     }
 }

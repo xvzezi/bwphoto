@@ -1,7 +1,6 @@
 package controller;
 
-import model.RegMes;
-import model.db.*;
+import model.response.RegMes;
 import model.db.Image;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

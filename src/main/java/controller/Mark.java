@@ -1,6 +1,6 @@
 package controller;
 
-import model.RegMes;
+import model.response.RegMes;
 import model.db.Item;
 import model.request.MarkCreation;
 import org.springframework.web.bind.annotation.*;
@@ -12,8 +12,8 @@ import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
 import java.util.List;
 
-import static model.RegMes.FAIL;
-import static model.RegMes.SUCCESS;
+import static model.response.RegMes.FAIL;
+import static model.response.RegMes.SUCCESS;
 
 /**
  * Service Of Marks On Items Or Marks

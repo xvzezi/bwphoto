@@ -1,6 +1,6 @@
 package controller;
 
-import model.RegMes;
+import model.response.RegMes;
 import model.db.Itemtag;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

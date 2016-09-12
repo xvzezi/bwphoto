@@ -38,6 +38,9 @@ public class Item{
 	@JsonProperty
 	private Integer emotion;
 
+	@JsonProperty
+	private String img_hash;
+
 	public Integer getId() {
 		return id;
 	}
@@ -102,6 +105,16 @@ public class Item{
 	public Integer getEmotion() { return this.emotion; }
 
 	public void setEmotion(Integer emotion) { this.emotion = emotion; }
+
+	public String getImg_hash()
+	{
+		return img_hash;
+	}
+
+	public void setImg_hash(String img_hash)
+	{
+		this.img_hash = img_hash;
+	}
 }
 
 

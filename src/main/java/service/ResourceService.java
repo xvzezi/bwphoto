@@ -2,6 +2,7 @@ package service;
 
 import model.db.Item;
 import model.request.ResourceCreation;
+import model.response.ImgHash;
 
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -115,4 +116,21 @@ public interface ResourceService
 	 *      先匹配resource的ownership信息，符合的情况下更改
 	 */
 	public String setBookISBN(int resource_id, String ISBN, String username);
+
+	/**
+	 * 在符合条件的情况下，设置hash——image
+	 * @param resource_id
+	 * @param name
+	 * @param hash
+	 * @return message
+	 */
+	public String setImgHash(int resource_id, String name, String hash);
+
+	/**
+	 * 获取用户所有的hash, img
+	 * @param name
+	 * @return list
+	 */
+	public List<ImgHash> getImgHashOfName(String name);
+
 }

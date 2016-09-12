@@ -1,19 +1,16 @@
 package controller;
 
-import model.RegMes;
-import model.db.Book;
+import model.response.RegMes;
 import model.request.BookCreation;
-import org.jboss.logging.annotations.Param;
 import org.springframework.web.bind.annotation.*;
 import service.BookService;
 import service.ResourceService;
 import util.SpringIoC;
 
 import javax.servlet.http.HttpSession;
-import javax.swing.*;
 
-import static model.RegMes.FAIL;
-import static model.RegMes.SUCCESS;
+import static model.response.RegMes.FAIL;
+import static model.response.RegMes.SUCCESS;
 
 /**
  * Service of music and book
@@ -76,8 +73,8 @@ public class MusicAndBook
 		return FAIL("Not Implemented");
 	}
 
-	@RequestMapping(value = "/books/{ISBN}/{url}", method = RequestMethod.POST)
-	public Object changeABook(@PathVariable String ISBN, @PathVariable String url, @RequestBody BookCreation bookCreation, HttpSession session)
+	@RequestMapping(value = "/books/{ISBN}", method = RequestMethod.POST)
+	public Object changeABook(@PathVariable String ISBN, @RequestBody BookCreation bookCreation, HttpSession session)
 	{
 		// check log
 		String name = (String)session.getAttribute("name");
@@ -87,7 +84,7 @@ public class MusicAndBook
 		}
 
 		BookService bs = SpringIoC.idGetter("bookService", BookService.class);
-		String result = bs.updateIsbnUrl(ISBN, url);
+		String result = bs.updateIsbnUrl(ISBN, bookCreation.getUrl());
 		System.out.println(bookCreation.getUrl());
 		if("success".equals(result))
 		{

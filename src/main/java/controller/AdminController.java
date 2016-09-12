@@ -2,7 +2,6 @@ package controller;
 
 import javax.servlet.http.HttpSession;
 
-import model.IntegerMes;
 import model.UserForm;
 import model.db.Memory;
 import model.db.User;
@@ -11,7 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import model.RegMes;
+import model.response.RegMes;
 import model.SimpleUser;
 import service.LogService;
 import service.RegisterService;

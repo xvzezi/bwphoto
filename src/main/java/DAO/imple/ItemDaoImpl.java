@@ -3,6 +3,7 @@ package DAO.imple;
 import java.sql.Timestamp;
 import java.util.List;
 
+import model.response.ImgHash;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -303,12 +304,40 @@ public class ItemDaoImpl implements ItemDao
 		{
 			session.beginTransaction();
 			Query query = session.createQuery("select count(*) from Item");
-			Integer i = (Integer) query.uniqueResult();
-			return i;
+			long i = (long)query.uniqueResult();
+			return (int)i;
 		}catch (Exception e)
 		{
 			Log.log.log("Error In ItemDAO getAmount:").log(e.getMessage()).log();
 			return 0;
+		}finally
+		{
+			session.getTransaction().commit();
+		}
+	}
+
+	/**
+	 * 只获取img_hash与resource_id
+	 *
+	 * @param name
+	 * @return ImgHash
+	 */
+	@Override
+	public List<ImgHash> getImgHash(String name)
+	{
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		try
+		{
+			session.beginTransaction();
+			Query query = session.createQuery("select new model.response.ImgHash(item.id, item.img_hash) " +
+					"from Item as item where userName=? and imageId is not null and img_hash is not null");
+			query.setString(0, name);
+			List<ImgHash> imgHashes = query.list();
+			return imgHashes;
+		}catch (Exception e)
+		{
+			Log.log.log("Error In ItemDAO img hash:").log(e.getMessage()).log();
+			return null;
 		}finally
 		{
 			session.getTransaction().commit();

@@ -51,3 +51,29 @@ debugging precisely through this doc.
                 {
                     "fail":"wrong"
                 }
+
+3. Image Compatible Things
+  set a resource's image hash, require the image has been uploaded
+    url:        /resources/{resource_id}/imghash/{hash}
+    method:     POST
+    request:
+                PARAM:  resource_id int
+                PARAM:  hash        String
+    response: 
+                {
+                    "success":"success" 
+                }
+
+  Get a user's all img hash
+    url:        /imghash
+    method:     GET
+    response: 
+                [
+                    {
+                        'resource_id':1,
+                        'hash':'123asd4564f23131fd'
+                    },
+                    {
+                        ...
+                    }
+                ]

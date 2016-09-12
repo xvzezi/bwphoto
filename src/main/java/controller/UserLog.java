@@ -4,15 +4,12 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.InputStreamResource;
-import org.springframework.core.io.InputStreamSource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import model.DetailUser;
-import model.RegMes;
+import model.response.RegMes;
 import model.SimpleUser;
 import model.db.User;
 import service.LogService;
@@ -21,7 +18,6 @@ import util.Log;
 import util.SpringIoC;
 import util.StatisticUtil;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 

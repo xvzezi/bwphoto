@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import model.db.Item;
+import model.response.ImgHash;
 
 /**
  * DAO of Resources
@@ -66,5 +67,11 @@ public interface ItemDao{
 	 * @return amount
 	 */
 	public int getAmount();
+
+	/**
+	 * 只获取img_hash与resource_id
+	 * @return ImgHash
+	 */
+	public List<ImgHash> getImgHash(String name);
     
 }

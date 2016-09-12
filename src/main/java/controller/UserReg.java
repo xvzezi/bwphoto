@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import model.RegMes;
+import model.response.RegMes;
 import model.db.User;
 import service.RegisterService;
 import util.Log;

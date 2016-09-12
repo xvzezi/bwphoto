@@ -1,7 +1,7 @@
 package controller;
 
 import model.Message;
-import model.RegMes;
+import model.response.RegMes;
 import model.db.Memory;
 import org.springframework.web.bind.annotation.*;
 import service.WordService;

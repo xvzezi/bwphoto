@@ -1,6 +1,5 @@
 package controller;
 
-import model.RegMes;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
